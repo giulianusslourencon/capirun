@@ -25,7 +25,7 @@ export function RankingTable() {
             <tr key={row.player_id} className="bg-white hover:bg-gray-50">
               <td className="px-4 py-3 font-semibold text-gray-700">{i + 1}</td>
               <td className="px-4 py-3 text-gray-900">{row.name}</td>
-              <td className="px-4 py-3 text-center text-indigo-600 font-medium">{row.puzzles_concluidos}</td>
+              <td className="px-4 py-3 text-center text-primary font-medium">{row.puzzles_concluidos}</td>
               <td className="px-4 py-3 text-right text-gray-500">{formatDate(row.ultimo_concluido_em)}</td>
             </tr>
           ))}

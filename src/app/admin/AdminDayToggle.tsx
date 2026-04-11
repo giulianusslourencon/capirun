@@ -36,7 +36,7 @@ export function AdminDayToggle({ day }: { day: Day }) {
       <button
         onClick={handleToggle}
         disabled={loading}
-        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${unlocked ? 'bg-indigo-600' : 'bg-gray-300'}`}
+        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${unlocked ? 'bg-primary' : 'bg-gray-300'}`}
         aria-label={unlocked ? 'Bloquear dia' : 'Liberar dia'}
       >
         <span

@@ -32,7 +32,7 @@ export function PuzzleCodeInput({ puzzleId }: { puzzleId: string }) {
           onChange={(e) => { setCode(e.target.value); setStatus('idle') }}
           placeholder="Senha de conclusão"
           onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
-          className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+          className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
         />
         <Button onClick={handleSubmit} disabled={status === 'loading'}>
           {status === 'loading' ? 'Verificando...' : 'Confirmar'}

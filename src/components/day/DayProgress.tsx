@@ -13,7 +13,7 @@ export function DayProgress({ completed, total }: Props) {
       </div>
       <div className="h-2 w-full rounded-full bg-gray-200">
         <div
-          className="h-2 rounded-full bg-indigo-500 transition-all"
+          className="h-2 rounded-full bg-primary transition-all"
           style={{ width: `${pct}%` }}
         />
       </div>

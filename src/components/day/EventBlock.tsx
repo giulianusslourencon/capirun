@@ -29,7 +29,7 @@ export function EventBlock({ event, puzzles, completedPuzzleIds, accessiblePuzzl
       </div>
 
       {narrativeBefore && (
-        <p className="text-sm text-gray-600 leading-relaxed border-l-4 border-indigo-200 pl-3 italic">
+        <p className="text-sm text-gray-600 leading-relaxed border-l-4 border-primary/30 pl-3 italic">
           {narrativeBefore}
         </p>
       )}

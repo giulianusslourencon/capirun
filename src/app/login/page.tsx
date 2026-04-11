@@ -17,9 +17,9 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 to-white px-4">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-primary/10 to-white px-4">
       <div className="w-full max-w-sm rounded-2xl border border-gray-200 bg-white p-8 shadow-lg text-center">
-        <h1 className="text-3xl font-bold text-indigo-600 mb-1">CapiRun</h1>
+        <h1 className="text-3xl font-bold text-primary mb-1">CapiRun</h1>
         <p className="text-gray-500 mb-8 text-sm">Faça login para participar</p>
         <button
           onClick={handleLogin}
