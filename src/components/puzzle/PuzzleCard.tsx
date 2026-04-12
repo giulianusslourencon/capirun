@@ -36,14 +36,7 @@ export function PuzzleCard({ puzzle, isCompleted, isAccessible }: Props) {
         </a>
       )}
 
-      {!isCompleted && <PuzzleCodeInput puzzleId={puzzle.id} />}
-
-      {isCompleted && puzzle.text_after && (
-        <div className="rounded-lg bg-green-50 p-3 text-sm text-green-800">
-          <p className="font-medium mb-1">Dica desbloqueada:</p>
-          <p>{puzzle.text_after}</p>
-        </div>
-      )}
+      {!isCompleted && puzzle.id && <PuzzleCodeInput puzzleId={puzzle.id} />}
     </Card>
   )
 }

@@ -35,44 +35,6 @@ export type Database = {
         }
         Relationships: []
       }
-      events: {
-        Row: {
-          day_number: number
-          id: string
-          location: string | null
-          order_in_day: number
-          text_after: string | null
-          text_before: string | null
-          title: string
-        }
-        Insert: {
-          day_number: number
-          id?: string
-          location?: string | null
-          order_in_day: number
-          text_after?: string | null
-          text_before?: string | null
-          title: string
-        }
-        Update: {
-          day_number?: number
-          id?: string
-          location?: string | null
-          order_in_day?: number
-          text_after?: string | null
-          text_before?: string | null
-          title?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "events_day_number_fkey"
-            columns: ["day_number"]
-            isOneToOne: false
-            referencedRelation: "days"
-            referencedColumns: ["day_number"]
-          },
-        ]
-      }
       player_puzzles: {
         Row: {
           completed: boolean
@@ -150,32 +112,41 @@ export type Database = {
       puzzles: {
         Row: {
           completion_code: string
-          event_id: string
+          content_path: string
+          day_number: number
           id: string
+          location: string | null
           name: string
+          order_in_day: number
           url: string | null
         }
         Insert: {
           completion_code: string
-          event_id: string
+          content_path: string
+          day_number: number
           id?: string
+          location?: string | null
           name: string
+          order_in_day: number
           url?: string | null
         }
         Update: {
           completion_code?: string
-          event_id?: string
+          content_path?: string
+          day_number?: number
           id?: string
+          location?: string | null
           name?: string
+          order_in_day?: number
           url?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "puzzles_event_id_fkey"
-            columns: ["event_id"]
+            foreignKeyName: "puzzles_day_number_fkey"
+            columns: ["day_number"]
             isOneToOne: false
-            referencedRelation: "events"
-            referencedColumns: ["id"]
+            referencedRelation: "days"
+            referencedColumns: ["day_number"]
           },
         ]
       }
@@ -183,19 +154,35 @@ export type Database = {
     Views: {
       puzzles_public: {
         Row: {
+          content_path: string | null
           day_number: number | null
           id: string | null
           location: string | null
           name: string | null
           order_in_day: number | null
-          text_after: string | null
-          text_before: string | null
-          title: string | null
           url: string | null
+        }
+        Insert: {
+          content_path?: string | null
+          day_number?: number | null
+          id?: string | null
+          location?: string | null
+          name?: string | null
+          order_in_day?: number | null
+          url?: string | null
+        }
+        Update: {
+          content_path?: string | null
+          day_number?: number | null
+          id?: string | null
+          location?: string | null
+          name?: string | null
+          order_in_day?: number | null
+          url?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "events_day_number_fkey"
+            foreignKeyName: "puzzles_day_number_fkey"
             columns: ["day_number"]
             isOneToOne: false
             referencedRelation: "days"
@@ -356,3 +343,8 @@ export const Constants = {
     Enums: {},
   },
 } as const
+
+export type Day = Tables<'days'>
+export type Puzzle = Tables<'puzzles_public'>
+export type PlayerPuzzle = Tables<'player_puzzles'>
+export type RankingRow = Tables<'ranking'>

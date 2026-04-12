@@ -36,6 +36,7 @@ export default async function HomePage() {
   )
 
   const puzzlesByDay = (puzzles ?? []).reduce<Record<number, string[]>>((acc, p) => {
+    if (p.day_number == null || p.id == null) return acc
     if (!acc[p.day_number]) acc[p.day_number] = []
     acc[p.day_number].push(p.id)
     return acc
