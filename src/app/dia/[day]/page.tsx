@@ -45,42 +45,35 @@ export default async function DayPage({ params }: Params) {
     if (prevAllDone) accessibleIds.add(puzzle.id)
   }
 
-  // Group puzzles by location (storage path to event .md)
-  const uniqueLocations = [...new Set(puzzles.map((p) => p.location).filter(Boolean))] as string[]
-  const puzzlesByLocation = puzzles.reduce<Record<string, Puzzle[]>>((acc, p) => {
-    const key = p.location ?? ''
-    if (!acc[key]) acc[key] = []
-    acc[key].push(p)
-    return acc
-  }, {})
-
-  // Fetch event content for each location from Supabase Storage
-  const eventEntries = await Promise.all(
-    uniqueLocations.map(async (loc) => ({ loc, event: await readEventContent(loc) }))
+  // Load event content per puzzle (1-to-1 relationship: each puzzle has its own .md)
+  const puzzleEntries = await Promise.all(
+    puzzles
+      .filter((p) => p.content_path != null)
+      .map(async (p) => ({ puzzle: p, event: await readEventContent(p.content_path!) }))
   )
-  const events = eventEntries
-    .filter((e) => e.event !== null)
-    .sort((a, b) => a.event!.order_in_day - b.event!.order_in_day)
+  const validEntries = puzzleEntries.filter((e) => {
+    if (e.event === null) {
+      console.error(`[DayPage] Failed to load event content: ${e.puzzle.content_path}`)
+      return false
+    }
+    return true
+  })
 
   return (
     <>
       <Navbar />
       <PageWrapper title={`Dia ${dayNumber} — ${dayData.title}`}>
         <div className="flex flex-col gap-10">
-          {events.map(({ loc, event }) => {
-            const eventPuzzles = puzzlesByLocation[loc] ?? []
-            const allCompleted = eventPuzzles.length > 0 && eventPuzzles.every((p) => completedIds.has(p.id ?? ''))
-            return (
-              <EventBlock
-                key={loc}
-                event={event!}
-                puzzles={eventPuzzles}
-                completedPuzzleIds={completedIds}
-                accessiblePuzzleIds={accessibleIds}
-                allCompleted={allCompleted}
-              />
-            )
-          })}
+          {validEntries.map(({ puzzle, event }) => (
+            <EventBlock
+              key={puzzle.id ?? ''}
+              event={event!}
+              puzzles={[puzzle]}
+              completedPuzzleIds={completedIds}
+              accessiblePuzzleIds={accessibleIds}
+              allCompleted={completedIds.has(puzzle.id ?? '')}
+            />
+          ))}
         </div>
       </PageWrapper>
     </>

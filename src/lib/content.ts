@@ -14,7 +14,10 @@ const BUCKET = 'events'
 export async function readEventContent(storagePath: string): Promise<EventContent | null> {
   const supabase = await createClient()
   const { data, error } = await supabase.storage.from(BUCKET).download(storagePath)
-  if (error || !data) return null
+  if (error || !data) {
+    console.error(`[readEventContent] bucket="${BUCKET}" path="${storagePath}"`, error)
+    return null
+  }
 
   const raw = await data.text()
   const { data: fm, content } = matter(raw)
