@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "events:pull": "node --env-file=.env.local scripts/sync-events.mjs pull",
+    "events:push": "node --env-file=.env.local scripts/sync-events.mjs push"
   },
   "dependencies": {
     "@base-ui/react": "^1.3.0",
