@@ -28,6 +28,18 @@ function parseNarrativeBlocks(markdown: string): NarrativeBlock[] {
     .flat();
 }
 
+const PERSON_EMOJI: Record<string, string> = {
+  "CapiVisio": "🦫",
+  "Leo": "🍫",
+  "MauMau": "🕵️‍♂️",
+  "Isabella": "🧼",
+  "Nicolas": "🐊",
+  "Penajo": "🗺️",
+  "Ramos": "🦝",
+  "Chowder": "🧙",
+  "Enzo": "🎉",
+};
+
 function DialogBox({
   name,
   children,
@@ -35,10 +47,11 @@ function DialogBox({
   name: string;
   children: React.ReactNode;
 }) {
+  const emoji = PERSON_EMOJI[name];
   return (
     <div className="rounded-lg border border-gray-200 overflow-hidden text-sm shadow-sm">
       <div className="bg-gray-50 border-b border-gray-200 px-3 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-        {name}
+        {emoji && <span className="mr-1.5">{emoji}</span>}{name}
       </div>
       <div className="px-3 py-2.5 text-gray-800 leading-relaxed italic prose prose-sm max-w-none">
         {children}
