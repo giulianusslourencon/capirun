@@ -22,6 +22,7 @@ export function Navbar() {
   const links = [
     { href: '/home', label: 'Início' },
     { href: '/ranking', label: 'Ranking' },
+    { href: '/faq', label: 'FAQ' },
   ]
 
   return (
