@@ -102,11 +102,21 @@ async function pull() {
   console.log(`\nDone. ${paths.length} file(s) downloaded to content/events/`)
 }
 
+const CONTENT_TYPES = {
+  '.md': 'text/markdown',
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.webp': 'image/webp',
+}
+
 async function pushFile(storagePath, localPath) {
+  const ext = localPath.slice(localPath.lastIndexOf('.')).toLowerCase()
+  const contentType = CONTENT_TYPES[ext] ?? 'application/octet-stream'
   const buffer = await readFile(localPath)
   const { error } = await supabase.storage.from(BUCKET).upload(storagePath, buffer, {
     upsert: true,
-    contentType: 'text/markdown',
+    contentType,
   })
   if (error) {
     console.error(`  ✗ ${storagePath} — ${error.message}`)
