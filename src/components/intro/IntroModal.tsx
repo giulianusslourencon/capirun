@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 
 const STORAGE_KEY = 'capirun:intro_seen'
@@ -56,6 +57,13 @@ export function IntroModal() {
         <Button className="mt-6 w-full" onClick={handleClose}>
           Começar
         </Button>
+        <p className="mt-3 text-center text-xs text-gray-500">
+          Antes de começar,{' '}
+          <Link href="/faq" onClick={handleClose} className="underline hover:text-gray-700">
+            confira as regras do jogo
+          </Link>
+          .
+        </p>
       </div>
     </div>
   )
