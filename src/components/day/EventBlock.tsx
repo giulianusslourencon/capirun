@@ -1,32 +1,40 @@
-import ReactMarkdown from 'react-markdown'
-import type { EventContent } from '@/lib/content'
-import type { Puzzle } from '@/types/database'
-import { PuzzleCard } from '@/components/puzzle/PuzzleCard'
+import ReactMarkdown from "react-markdown";
+import type { EventContent } from "@/lib/content";
+import type { Puzzle } from "@/types/database";
+import { PuzzleCard } from "@/components/puzzle/PuzzleCard";
 
 type Props = {
-  event: EventContent
-  puzzles: Puzzle[]
-  completedPuzzleIds: Set<string>
-  accessiblePuzzleIds: Set<string>
-  allCompleted: boolean
-}
+  event: EventContent;
+  puzzle: Puzzle;
+  isCompleted: boolean;
+  isAccessible: boolean;
+};
 
 type NarrativeBlock =
-  | { type: 'dialog'; name: string; content: string }
-  | { type: 'prose'; content: string }
+  | { type: "dialog"; name: string; content: string }
+  | { type: "prose"; content: string };
 
 function parseNarrativeBlocks(markdown: string): NarrativeBlock[] {
-  return markdown.split(/\n\n+/).flatMap(para => {
-    const trimmed = para.trim()
-    if (!trimmed) return []
-    const m = trimmed.match(/^>\s*\*\*(.+?):\*\*\s*(.*)$/s)
-    return m
-      ? [{ type: 'dialog' as const, name: m[1], content: m[2].trim() }]
-      : [{ type: 'prose' as const, content: trimmed }]
-  })
+  return markdown
+    .split(/\n\n+/)
+    .map((para) => {
+      const trimmed = para.trim();
+      if (!trimmed) return [];
+      const m = trimmed.match(/^>\s*\*\*(.+?):\*\*\s*([\s\S]*)$/);
+      return m
+        ? [{ type: "dialog" as const, name: m[1], content: m[2].trim() }]
+        : [{ type: "prose" as const, content: trimmed }];
+    })
+    .flat();
 }
 
-function DialogBox({ name, children }: { name: string; children: React.ReactNode }) {
+function DialogBox({
+  name,
+  children,
+}: {
+  name: string;
+  children: React.ReactNode;
+}) {
   return (
     <div className="rounded-lg border border-gray-200 overflow-hidden text-sm shadow-sm">
       <div className="bg-gray-50 border-b border-gray-200 px-3 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wide">
@@ -36,14 +44,20 @@ function DialogBox({ name, children }: { name: string; children: React.ReactNode
         {children}
       </div>
     </div>
-  )
+  );
 }
 
-function NarrativeSection({ markdown, proseClassName }: { markdown: string; proseClassName: string }) {
+function NarrativeSection({
+  markdown,
+  proseClassName,
+}: {
+  markdown: string;
+  proseClassName: string;
+}) {
   return (
     <div className="flex flex-col gap-2">
       {parseNarrativeBlocks(markdown).map((block, i) =>
-        block.type === 'dialog' ? (
+        block.type === "dialog" ? (
           <DialogBox key={i} name={block.name}>
             <ReactMarkdown>{block.content}</ReactMarkdown>
           </DialogBox>
@@ -51,23 +65,42 @@ function NarrativeSection({ markdown, proseClassName }: { markdown: string; pros
           <div key={i} className={proseClassName}>
             <ReactMarkdown>{block.content}</ReactMarkdown>
           </div>
-        )
+        ),
       )}
     </div>
-  )
+  );
 }
 
-export function EventBlock({ event, puzzles, completedPuzzleIds, accessiblePuzzleIds, allCompleted }: Props) {
+export function EventBlock({
+  event,
+  puzzle,
+  isCompleted,
+  isAccessible,
+}: Props) {
   return (
     <section className="flex flex-col gap-4">
       <div>
         <h2 className="text-xl font-bold text-gray-900">{event.title}</h2>
         {event.location && (
           <p className="mt-0.5 text-sm text-gray-500 flex items-center gap-1">
-            <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            <svg
+              className="h-4 w-4 shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+              />
             </svg>
             {event.location}
           </p>
@@ -81,18 +114,13 @@ export function EventBlock({ event, puzzles, completedPuzzleIds, accessiblePuzzl
         />
       )}
 
-      <div className="flex flex-col gap-3">
-        {puzzles.map((puzzle) => (
-          <PuzzleCard
-            key={puzzle.id ?? ''}
-            puzzle={puzzle}
-            isCompleted={completedPuzzleIds.has(puzzle.id ?? '')}
-            isAccessible={accessiblePuzzleIds.has(puzzle.id ?? '')}
-          />
-        ))}
-      </div>
+      <PuzzleCard
+        puzzle={puzzle}
+        isCompleted={isCompleted}
+        isAccessible={isAccessible}
+      />
 
-      {allCompleted && event.text_after && (
+      {isCompleted && event.text_after && (
         <div className="rounded-lg bg-green-50 p-3">
           <NarrativeSection
             markdown={event.text_after}
@@ -101,5 +129,5 @@ export function EventBlock({ event, puzzles, completedPuzzleIds, accessiblePuzzl
         </div>
       )}
     </section>
-  )
+  );
 }

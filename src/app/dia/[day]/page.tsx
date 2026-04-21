@@ -105,10 +105,9 @@ export default async function DayPage({ params, searchParams }: Props) {
               {backLink}
               <EventBlock
                 event={event}
-                puzzles={[puzzle]}
-                completedPuzzleIds={completedIds}
-                accessiblePuzzleIds={accessibleIds}
-                allCompleted={isCompleted}
+                puzzle={puzzle}
+                isCompleted={isCompleted}
+                isAccessible={isAccessible}
               />
             </>
           )}
