@@ -26,11 +26,14 @@ export function PuzzleCodeInput({ puzzleId }: { puzzleId: string }) {
 
   return (
     <div className="mt-3 flex flex-col gap-2">
+      <p className="text-sm text-gray-600">
+        A senha são os dígitos no caminho entre <strong>CapiVisio</strong> e <strong>Lorenzzo Lopez</strong> no puzzle.
+      </p>
       <div className="flex gap-2">
         <input
           value={code}
           onChange={(e) => { setCode(e.target.value); setStatus('idle') }}
-          placeholder="Senha de conclusão"
+          placeholder="Dígitos do caminho"
           onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
           className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
         />
