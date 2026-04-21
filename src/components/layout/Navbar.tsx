@@ -13,6 +13,12 @@ export function Navbar() {
     router.push('/login')
   }
 
+  const handleShowIntro = () => {
+    localStorage.removeItem('capirun:intro_seen')
+    window.dispatchEvent(new Event('show-intro'))
+    if (pathname !== '/home') router.push('/home')
+  }
+
   const links = [
     { href: '/home', label: 'Início' },
     { href: '/ranking', label: 'Ranking' },
@@ -32,6 +38,12 @@ export function Navbar() {
               {label}
             </Link>
           ))}
+          <button
+            onClick={handleShowIntro}
+            className="text-sm text-gray-600 hover:text-gray-900"
+          >
+            Introdução
+          </button>
           <button
             onClick={handleLogout}
             className="text-sm text-gray-500 hover:text-gray-700"

@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { DayCard, type DayStatus } from '@/components/day/DayCard'
 import { Navbar } from '@/components/layout/Navbar'
 import { PageWrapper } from '@/components/layout/PageWrapper'
+import { IntroModal } from '@/components/intro/IntroModal'
 import type { Day } from '@/types/database'
 
 type PuzzleProgressRow = {
@@ -52,6 +53,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <IntroModal />
       <Navbar />
       <PageWrapper title="Dias">
         <div className="flex flex-col gap-4">
