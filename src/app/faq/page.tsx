@@ -13,6 +13,24 @@ type FaqItem = {
   image?: { src: string; alt: string };
 };
 
+const loreItems: FaqItem[] = [
+  {
+    question: "Quem é a CapiVisio?",
+    answer:
+      "A CapiVisio é você. Do RH, organizada e paciente — mas cada vez mais preocupada com o prazo. No puzzle, é a personagem que você guia pelo caminho até o Lorenzzo Lopez, coletando os dígitos ao longo do trajeto para formar a senha de cada fase.",
+  },
+  {
+    question: "O que é o Lorenzzo Lopez?",
+    answer:
+      "O Lorenzzo Lopez é o tênis desaparecido. Um objeto inanimado, mas com presença forte na cultura da empresa — vindo direto de Bertioga para ser o prêmio do sorteio do All Hands. Dentro do jogo, é o destino final da CapiVisio em cada puzzle.",
+  },
+  {
+    question: "O que é o All Hands?",
+    answer:
+      "O All Hands é o evento de sexta-feira da semana presencial onde o Lorenzzo Lopez seria sorteado como prêmio especial. Foi MauMau quem pediu para que o tênis fosse entregue diretamente de Bertioga — mas algo de estranho aconteceu antes que chegasse ao evento…",
+  },
+];
+
 const sudokuItems: FaqItem[] = [
   {
     question: "Solução única",
@@ -163,6 +181,8 @@ export default function FaqPage() {
       <Navbar />
       <PageWrapper title="FAQ">
         <div className="flex flex-col gap-8">
+          <FaqSection title="A História" items={loreItems} />
+          <hr className="border-gray-200" />
           <FaqSection title="Sudoku 4×4" items={sudokuItems} />
           <hr className="border-gray-200" />
           <FaqSection title="Regras do CapiRun" items={capirunItems} />
