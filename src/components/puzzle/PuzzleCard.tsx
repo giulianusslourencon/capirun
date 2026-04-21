@@ -35,6 +35,8 @@ export function PuzzleCard({ puzzle, isCompleted, isAccessible }: Props) {
             width={600}
             height={600}
             className="w-full rounded"
+            loading="eager"
+            priority
           />
         </a>
       )}
