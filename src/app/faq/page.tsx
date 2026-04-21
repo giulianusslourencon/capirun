@@ -1,6 +1,11 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { PageWrapper } from "@/components/layout/PageWrapper";
-import { Card } from "@/components/ui/Card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 type FaqItem = {
   question: string;
@@ -122,26 +127,32 @@ const capirunItems: FaqItem[] = [
 
 function FaqSection({ title, items }: { title: string; items: FaqItem[] }) {
   return (
-    <section className="flex flex-col gap-4">
-      <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
-      {items.map((item) => (
-        <Card key={item.question} className="flex flex-col gap-3">
-          <h3 className="font-semibold text-gray-900">{item.question}</h3>
-          <p className="text-sm text-gray-600 leading-relaxed">{item.answer}</p>
-          {item.image && (
-            <div className="flex justify-center">
-              <img
-                src={item.image.src}
-                alt={item.image.alt}
-                role="img"
-                width={240}
-                height={240}
-                className="rounded-lg border border-gray-100"
-              />
-            </div>
-          )}
-        </Card>
-      ))}
+    <section className="flex flex-col gap-2">
+      <h2 className="text-xl font-semibold text-gray-800 mb-2">{title}</h2>
+      <Accordion type="multiple" className="w-full rounded-xl border border-gray-200 bg-white shadow-sm divide-y divide-gray-200">
+        {items.map((item) => (
+          <AccordionItem key={item.question} value={item.question} className="px-5 not-last:border-b-0">
+            <AccordionTrigger className="font-semibold text-gray-900 py-4 text-base">
+              {item.question}
+            </AccordionTrigger>
+            <AccordionContent>
+              <p className="text-sm text-gray-600 leading-relaxed">{item.answer}</p>
+              {item.image && (
+                <div className="flex justify-center mt-3">
+                  <img
+                    src={item.image.src}
+                    alt={item.image.alt}
+                    role="img"
+                    width={240}
+                    height={240}
+                    className="rounded-lg border border-gray-100"
+                  />
+                </div>
+              )}
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
     </section>
   );
 }
