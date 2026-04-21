@@ -84,6 +84,24 @@ const sudokuItems: FaqItem[] = [
   },
 ];
 
+const sudokupadItems: FaqItem[] = [
+  {
+    question: "Marcas de canto e marcas de centro",
+    answer:
+      "Além de preencher os dígitos principais, você pode usar marcas de canto — pequenos números nos cantos da célula — e marcas de centro — dígitos menores no meio da célula. Use como preferir para anotar candidatos e organizar o raciocínio durante a resolução do puzzle.",
+  },
+  {
+    question: "Ferramenta de cores",
+    answer:
+      "A ferramenta de cores permite pintar células com diferentes cores para organizar o raciocínio visualmente. É especialmente útil para marcar células que devem conter o mesmo dígito — mesmo antes de saber qual dígito é — ou para distinguir células que definitivamente fazem ou não fazem parte do caminho da CapiVisio.",
+  },
+  {
+    question: "Ferramenta de caneta",
+    answer:
+      "A ferramenta de caneta permite desenhar linhas e setas livremente sobre a grade, útil para anotar relações entre células ou marcar possíveis caminhos. Para usá-la, primeiro ative-a clicando no ícone de engrenagem (⚙) e selecionando \"Enable pen tool\".",
+  },
+];
+
 const capirunItems: FaqItem[] = [
   // — non-diagonal rules —
   {
@@ -184,6 +202,8 @@ export default function FaqPage() {
           <FaqSection title="A História" items={loreItems} />
           <hr className="border-gray-200" />
           <FaqSection title="Sudoku 4×4" items={sudokuItems} />
+          <hr className="border-gray-200" />
+          <FaqSection title="Ferramentas do SudokuPad" items={sudokupadItems} />
           <hr className="border-gray-200" />
           <FaqSection title="Regras do CapiRun" items={capirunItems} />
         </div>
