@@ -32,7 +32,7 @@ export function PuzzleCodeInput({ puzzleId }: { puzzleId: string }) {
       <div className="flex gap-2">
         <input
           value={code}
-          onChange={(e) => { setCode(e.target.value); setStatus('idle') }}
+          onChange={(e) => { setCode(e.target.value.replace(/[^1-4]/g, '')); setStatus('idle') }}
           placeholder="Dígitos do caminho"
           onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
           className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
@@ -41,6 +41,7 @@ export function PuzzleCodeInput({ puzzleId }: { puzzleId: string }) {
           {status === 'loading' ? 'Verificando...' : 'Confirmar'}
         </Button>
       </div>
+      <p className="text-xs text-gray-400">Apenas dígitos de 1 a 4, sem espaços.</p>
       {status === 'error' && (
         <p className="text-sm text-red-600">Senha incorreta. Tente novamente.</p>
       )}
