@@ -2,6 +2,7 @@ import ReactMarkdown from "react-markdown";
 import type { EventContent } from "@/lib/content";
 import type { Puzzle } from "@/types/tables";
 import { PuzzleCard } from "@/components/puzzle/PuzzleCard";
+import { EvidenceDossier } from "@/components/day/EvidenceDossier";
 
 type Props = {
   event: EventContent;
@@ -26,6 +27,76 @@ function parseNarrativeBlocks(markdown: string): NarrativeBlock[] {
         : [{ type: "prose" as const, content: trimmed }];
     })
     .flat();
+}
+
+const PISTAS_HEADING = /^\*\*🔎\s*Pistas\*\*/;
+const DEPOIMENTOS_HEADING = /^\*\*🎤\s*Depoimentos\*\*/;
+const DIALOG_BLOCKQUOTE = /^>\s*\*\*(.+?):\*\*\s*([\s\S]*)$/;
+const DIVIDER_LINE = /^\\?_\\?_$/;
+const CLUE_LABEL = /^_Pista\s+\d+\._\s*/;
+
+type DossierExtraction = {
+  clues: string[];
+  testimonies: { name: string; quote: string }[];
+  narrativeWithoutDossier: string;
+};
+
+function extractDossier(markdown: string): DossierExtraction {
+  const paragraphs = markdown.split(/\n\n+/);
+  const clues: string[] = [];
+  const testimonies: { name: string; quote: string }[] = [];
+  const narrativeParagraphs: string[] = [];
+  let mode: "none" | "clues" | "testimonies" = "none";
+
+  for (const raw of paragraphs) {
+    const trimmed = raw.trim();
+    if (!trimmed) continue;
+
+    const linesWithoutDividers = trimmed
+      .split("\n")
+      .filter((l) => !DIVIDER_LINE.test(l.trim()));
+    const firstLine = linesWithoutDividers[0]?.trim() ?? "";
+
+    if (PISTAS_HEADING.test(firstLine)) {
+      mode = "clues";
+      continue;
+    }
+    if (DEPOIMENTOS_HEADING.test(firstLine)) {
+      mode = "testimonies";
+      continue;
+    }
+
+    if (mode === "clues") {
+      const bullets = trimmed
+        .split("\n")
+        .map((l) => l.trim())
+        .filter((l) => l.startsWith("- "))
+        .map((l) => l.replace(/^-\s+/, "").replace(CLUE_LABEL, "").trim());
+      if (bullets.length > 0) {
+        clues.push(...bullets);
+        continue;
+      }
+      mode = "none";
+    }
+
+    if (mode === "testimonies") {
+      const m = trimmed.match(DIALOG_BLOCKQUOTE);
+      if (m) {
+        testimonies.push({ name: m[1], quote: m[2].trim() });
+        continue;
+      }
+      mode = "none";
+    }
+
+    const cleaned = linesWithoutDividers.join("\n").trim();
+    if (cleaned) narrativeParagraphs.push(cleaned);
+  }
+
+  return {
+    clues,
+    testimonies,
+    narrativeWithoutDossier: narrativeParagraphs.join("\n\n"),
+  };
 }
 
 const PERSON_EMOJI: Record<string, string> = {
@@ -90,6 +161,10 @@ export function EventBlock({
   isCompleted,
   isAccessible,
 }: Props) {
+  const { clues, testimonies, narrativeWithoutDossier } = extractDossier(
+    event.text_before ?? "",
+  );
+
   return (
     <section className="flex flex-col gap-4">
       <div className="min-w-0">
@@ -120,12 +195,14 @@ export function EventBlock({
         )}
       </div>
 
-      {event.text_before && (
+      {narrativeWithoutDossier && (
         <NarrativeSection
-          markdown={event.text_before}
+          markdown={narrativeWithoutDossier}
           proseClassName="text-sm text-gray-600 leading-relaxed italic prose prose-sm max-w-none"
         />
       )}
+
+      <EvidenceDossier clues={clues} testimonies={testimonies} />
 
       <PuzzleCard
         puzzle={puzzle}
