@@ -3,6 +3,7 @@ import { DayCard, type DayStatus } from '@/components/day/DayCard'
 import { Navbar } from '@/components/layout/Navbar'
 import { PageWrapper } from '@/components/layout/PageWrapper'
 import { IntroModal } from '@/components/intro/IntroModal'
+import { getCurrentMood } from '@/lib/capiVisioMood'
 import type { Day } from '@/types/database'
 
 type PuzzleProgressRow = {
@@ -26,10 +27,11 @@ export default async function HomePage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const [{ data: days }, { data: puzzles }, { data: progress }] = await Promise.all([
+  const [{ data: days }, { data: puzzles }, { data: progress }, mood] = await Promise.all([
     supabase.from('days').select('*').order('day_number'),
     supabase.from('puzzles_public').select('id, day_number'),
     supabase.from('player_puzzles').select('puzzle_id, completed, completed_at').eq('player_id', user!.id),
+    getCurrentMood(supabase),
   ])
 
   const completedIds = new Set(
@@ -54,7 +56,7 @@ export default async function HomePage() {
   return (
     <>
       <IntroModal />
-      <Navbar />
+      <Navbar mood={mood} />
       <PageWrapper title="Dias">
         <div className="flex flex-col gap-4">
           {(days ?? []).map((day, i) => {

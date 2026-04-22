@@ -7,8 +7,10 @@ import { Card } from '@/components/ui/Card'
 import { DayProgress } from '@/components/day/DayProgress'
 import { EventCalendarEntry } from '@/components/day/EventCalendarEntry'
 import { EventBlock } from '@/components/day/EventBlock'
+import { CapiVisioMoodBanner } from '@/components/capivisio/CapiVisioMoodBanner'
 import { readEventContent } from '@/lib/content'
 import { computeAccessibleIds } from '@/lib/utils'
+import { getCurrentMood } from '@/lib/capiVisioMood'
 import type { Puzzle } from '@/types/database'
 
 type Props = {
@@ -25,7 +27,7 @@ export default async function DayPage({ params, searchParams }: Props) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const [{ data: dayData }, { data: puzzlesRaw }, { data: progress }] = await Promise.all([
+  const [{ data: dayData }, { data: puzzlesRaw }, { data: progress }, mood] = await Promise.all([
     supabase.from('days').select('*').eq('day_number', dayNumber).single(),
     supabase
       .from('puzzles_public')
@@ -36,6 +38,7 @@ export default async function DayPage({ params, searchParams }: Props) {
       .from('player_puzzles')
       .select('puzzle_id, completed')
       .eq('player_id', user!.id),
+    getCurrentMood(supabase),
   ])
 
   if (!dayData || !dayData.is_unlocked) notFound()
@@ -79,7 +82,7 @@ export default async function DayPage({ params, searchParams }: Props) {
 
     return (
       <>
-        <Navbar />
+        <Navbar mood={mood} />
         <PageWrapper title={puzzle.name ?? `Evento ${orderInDay}`}>
           {!isAccessible ? (
             <div className="flex flex-col items-center gap-3 py-12 text-center">
@@ -103,11 +106,13 @@ export default async function DayPage({ params, searchParams }: Props) {
           ) : (
             <>
               {backLink}
+              <CapiVisioMoodBanner mood={mood} />
               <EventBlock
                 event={event}
                 puzzle={puzzle}
                 isCompleted={isCompleted}
                 isAccessible={isAccessible}
+                mood={mood}
               />
             </>
           )}
@@ -119,8 +124,9 @@ export default async function DayPage({ params, searchParams }: Props) {
   // — Calendar view —
   return (
     <>
-      <Navbar />
+      <Navbar mood={mood} />
       <PageWrapper title={`Dia ${dayNumber} — ${dayData.title}`}>
+        <CapiVisioMoodBanner mood={mood} />
         <div className="mb-4">
           <DayProgress completed={completedCount} total={puzzles.length} />
         </div>

@@ -2,8 +2,14 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import type { DayMood } from '@/lib/capiVisioMood'
+import { CapiVisioMoodStrip } from '@/components/capivisio/CapiVisioMoodStrip'
 
-export function Navbar() {
+type Props = {
+  mood?: DayMood | null
+}
+
+export function Navbar({ mood = null }: Props = {}) {
   const pathname = usePathname()
   const router = useRouter()
 
@@ -26,33 +32,36 @@ export function Navbar() {
   ]
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-gray-200 bg-white px-4 py-3">
-      <div className="mx-auto flex max-w-3xl items-center justify-between">
-        <Link href="/home" className="text-lg font-bold text-primary">CapiRun</Link>
-        <div className="flex items-center gap-4">
-          {links.map(({ href, label }) => (
-            <Link
-              key={href}
-              href={href}
-              className={`text-sm font-medium ${pathname === href ? 'text-primary' : 'text-gray-600 hover:text-gray-900'}`}
+    <div className="sticky top-0 z-50">
+      <nav className="border-b border-gray-200 bg-white px-4 py-3">
+        <div className="mx-auto flex max-w-3xl items-center justify-between">
+          <Link href="/home" className="text-lg font-bold text-primary">CapiRun</Link>
+          <div className="flex items-center gap-4">
+            {links.map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                className={`text-sm font-medium ${pathname === href ? 'text-primary' : 'text-gray-600 hover:text-gray-900'}`}
+              >
+                {label}
+              </Link>
+            ))}
+            <button
+              onClick={handleShowIntro}
+              className="text-sm text-gray-600 hover:text-gray-900"
             >
-              {label}
-            </Link>
-          ))}
-          <button
-            onClick={handleShowIntro}
-            className="text-sm text-gray-600 hover:text-gray-900"
-          >
-            Introdução
-          </button>
-          <button
-            onClick={handleLogout}
-            className="text-sm text-gray-500 hover:text-gray-700"
-          >
-            Sair
-          </button>
+              Introdução
+            </button>
+            <button
+              onClick={handleLogout}
+              className="text-sm text-gray-500 hover:text-gray-700"
+            >
+              Sair
+            </button>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+      <CapiVisioMoodStrip mood={mood} />
+    </div>
   )
 }

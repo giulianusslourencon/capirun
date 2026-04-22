@@ -6,6 +6,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { createClient } from "@/lib/supabase/server";
+import { getCurrentMood } from "@/lib/capiVisioMood";
 
 type FaqItem = {
   question: string;
@@ -193,10 +195,12 @@ function FaqSection({ title, items }: { title: string; items: FaqItem[] }) {
   );
 }
 
-export default function FaqPage() {
+export default async function FaqPage() {
+  const supabase = await createClient();
+  const mood = await getCurrentMood(supabase);
   return (
     <>
-      <Navbar />
+      <Navbar mood={mood} />
       <PageWrapper title="FAQ">
         <div className="flex flex-col gap-8">
           <FaqSection title="A História" items={loreItems} />
