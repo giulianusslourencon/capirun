@@ -31,7 +31,7 @@ export default async function HomePage() {
     supabase.from('days').select('*').order('day_number'),
     supabase.from('puzzles_public').select('id, day_number'),
     supabase.from('player_puzzles').select('puzzle_id, completed, completed_at').eq('player_id', user!.id),
-    getCurrentMood(supabase),
+    getCurrentMood(supabase, user!.id),
   ])
 
   const completedIds = new Set(

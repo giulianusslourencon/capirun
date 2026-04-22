@@ -38,7 +38,7 @@ export default async function DayPage({ params, searchParams }: Props) {
       .from('player_puzzles')
       .select('puzzle_id, completed')
       .eq('player_id', user!.id),
-    getCurrentMood(supabase),
+    getCurrentMood(supabase, user!.id),
   ])
 
   if (!dayData || !dayData.is_unlocked) notFound()

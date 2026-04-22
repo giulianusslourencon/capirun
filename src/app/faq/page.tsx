@@ -197,7 +197,8 @@ function FaqSection({ title, items }: { title: string; items: FaqItem[] }) {
 
 export default async function FaqPage() {
   const supabase = await createClient();
-  const mood = await getCurrentMood(supabase);
+  const { data: { user } } = await supabase.auth.getUser();
+  const mood = await getCurrentMood(supabase, user?.id);
   return (
     <>
       <Navbar mood={mood} />

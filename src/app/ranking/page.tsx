@@ -6,7 +6,8 @@ import { getCurrentMood } from '@/lib/capiVisioMood'
 
 export default async function RankingPage() {
   const supabase = await createClient()
-  const mood = await getCurrentMood(supabase)
+  const { data: { user } } = await supabase.auth.getUser()
+  const mood = await getCurrentMood(supabase, user?.id)
   return (
     <>
       <Navbar mood={mood} />

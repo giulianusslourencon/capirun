@@ -98,10 +98,25 @@ export function moodForDay(day: number | null | undefined): DayMood | null {
   return DAY_MOODS[day] ?? null
 }
 
+export function computeLastFinishedDay(
+  puzzlesByDay: Record<number, string[]>,
+  completedIds: Set<string>
+): number {
+  let maxFinished = 0
+  for (const [dayStr, ids] of Object.entries(puzzlesByDay)) {
+    if (ids.length === 0) continue
+    if (!ids.every((id) => completedIds.has(id))) continue
+    const day = Number(dayStr)
+    if (day > maxFinished) maxFinished = day
+  }
+  return maxFinished
+}
+
 export async function getCurrentMood(
-  supabase: SupabaseClient<Database>
+  supabase: SupabaseClient<Database>,
+  playerId: string | null | undefined
 ): Promise<DayMood | null> {
-  const { data, error } = await supabase
+  const { data: openData, error: openErr } = await supabase
     .from('days')
     .select('day_number')
     .eq('is_unlocked', true)
@@ -109,6 +124,48 @@ export async function getCurrentMood(
     .limit(1)
     .maybeSingle()
 
-  if (error || !data) return null
-  return moodForDay(data.day_number)
+  if (openErr || !openData) return null
+  const currentOpenDay = openData.day_number
+  const calendar = DAY_MOODS[currentOpenDay]
+  if (!calendar) return null
+
+  let effectiveDay = currentOpenDay
+
+  if (playerId) {
+    const [{ data: puzzles }, { data: progress }] = await Promise.all([
+      supabase.from('puzzles_public').select('id, day_number'),
+      supabase
+        .from('player_puzzles')
+        .select('puzzle_id, completed')
+        .eq('player_id', playerId),
+    ])
+
+    const puzzlesByDay = (puzzles ?? []).reduce<Record<number, string[]>>((acc, p) => {
+      if (p.day_number == null || p.id == null) return acc
+      if (!acc[p.day_number]) acc[p.day_number] = []
+      acc[p.day_number].push(p.id)
+      return acc
+    }, {})
+
+    const completedIds = new Set(
+      (progress ?? []).filter((p) => p.completed).map((p) => p.puzzle_id)
+    )
+
+    const lastFinishedDay = computeLastFinishedDay(puzzlesByDay, completedIds)
+    const expectedFinished = currentOpenDay - 1
+    const lag = Math.max(expectedFinished - lastFinishedDay, 0)
+    effectiveDay = Math.min(currentOpenDay + lag, 5)
+  }
+
+  const intensity = DAY_MOODS[effectiveDay] ?? calendar
+
+  return {
+    day: calendar.day,
+    weekday: calendar.weekday,
+    quote: calendar.quote,
+    mood: intensity.mood,
+    pressure: intensity.pressure,
+    pressureLabel: intensity.pressureLabel,
+    accent: intensity.accent,
+  }
 }
