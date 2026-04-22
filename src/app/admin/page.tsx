@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation'
 import { Navbar } from '@/components/layout/Navbar'
 import { PageWrapper } from '@/components/layout/PageWrapper'
 import { AdminDayToggle } from './AdminDayToggle'
-import type { Day } from '@/types/database'
+import type { Day } from '@/types/tables'
 
 const ADMINS = (process.env.ADMIN_EMAILS ?? '').split(',').map((e) => e.trim()).filter(Boolean)
 

@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import type { Day } from '@/types/database'
+import type { Day } from '@/types/tables'
 import { Card } from '@/components/ui/Card'
 
 export function AdminDayToggle({ day }: { day: Day }) {

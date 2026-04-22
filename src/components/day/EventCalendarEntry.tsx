@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import type { Puzzle } from '@/types/database'
+import type { Puzzle } from '@/types/tables'
 import { Badge } from '@/components/ui/Badge'
 
 type EventStatus = 'completed' | 'available' | 'locked'

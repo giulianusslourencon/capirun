@@ -4,7 +4,7 @@ import { Navbar } from '@/components/layout/Navbar'
 import { PageWrapper } from '@/components/layout/PageWrapper'
 import { IntroModal } from '@/components/intro/IntroModal'
 import { getCurrentMood } from '@/lib/capiVisioMood'
-import type { Day } from '@/types/database'
+import type { Day } from '@/types/tables'
 
 type PuzzleProgressRow = {
   puzzle_id: string

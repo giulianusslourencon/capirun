@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
-import type { Puzzle } from '@/types/database'
+import type { Puzzle } from '@/types/tables'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))

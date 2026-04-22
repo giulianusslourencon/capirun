@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { getMyProgress } from '@/lib/queries/progress'
-import type { PlayerPuzzle } from '@/types/database'
+import type { PlayerPuzzle } from '@/types/tables'
 
 export function useDayProgress() {
   const [progress, setProgress] = useState<Pick<PlayerPuzzle, 'puzzle_id' | 'completed' | 'completed_at'>[]>([])

@@ -1,6 +1,6 @@
 import ReactMarkdown from "react-markdown";
 import type { EventContent } from "@/lib/content";
-import type { Puzzle } from "@/types/database";
+import type { Puzzle } from "@/types/tables";
 import { PuzzleCard } from "@/components/puzzle/PuzzleCard";
 
 type Props = {

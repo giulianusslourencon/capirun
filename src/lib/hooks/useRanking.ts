@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { getRanking } from '@/lib/queries/ranking'
-import type { RankingRow } from '@/types/database'
+import type { RankingRow } from '@/types/tables'
 
 export function useRanking() {
   const [ranking, setRanking] = useState<RankingRow[]>([])

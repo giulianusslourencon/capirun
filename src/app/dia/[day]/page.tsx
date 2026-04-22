@@ -11,7 +11,7 @@ import { CapiVisioMoodBanner } from '@/components/capivisio/CapiVisioMoodBanner'
 import { readEventContent } from '@/lib/content'
 import { computeAccessibleIds } from '@/lib/utils'
 import { getCurrentMood } from '@/lib/capiVisioMood'
-import type { Puzzle } from '@/types/database'
+import type { Puzzle } from '@/types/tables'
 
 type Props = {
   params: Promise<{ day: string }>

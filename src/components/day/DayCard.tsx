@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import type { Day } from '@/types/database'
+import type { Day } from '@/types/tables'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { DayProgress } from './DayProgress'

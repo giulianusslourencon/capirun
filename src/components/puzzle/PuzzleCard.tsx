@@ -1,8 +1,9 @@
 'use client'
 import Image from 'next/image'
-import type { Puzzle } from '@/types/database'
+import type { Puzzle } from '@/types/tables'
 import { PuzzleLock } from './PuzzleLock'
 import { PuzzleCodeInput } from './PuzzleCodeInput'
+import { MurdlePuzzle } from './MurdlePuzzle'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 
@@ -14,6 +15,8 @@ type Props = {
 
 export function PuzzleCard({ puzzle, isCompleted, isAccessible }: Props) {
   if (!isAccessible) return <PuzzleLock />
+
+  const isMurdle = puzzle.day_number === 5
 
   const thumbnailPath = puzzle.content_path?.replace(/\.md$/, '-thumbnail.png')
   const thumbnailUrl = thumbnailPath
@@ -27,7 +30,7 @@ export function PuzzleCard({ puzzle, isCompleted, isAccessible }: Props) {
         {isCompleted && <Badge variant="success">Concluído</Badge>}
       </div>
 
-      {thumbnailUrl && puzzle.url && (
+      {!isMurdle && thumbnailUrl && puzzle.url && (
         <a href={puzzle.url} target="_blank" rel="noopener noreferrer">
           <Image
             src={thumbnailUrl}
@@ -41,7 +44,7 @@ export function PuzzleCard({ puzzle, isCompleted, isAccessible }: Props) {
         </a>
       )}
 
-      {puzzle.url && (
+      {!isMurdle && puzzle.url && (
         <a
           href={puzzle.url}
           target="_blank"
@@ -56,7 +59,11 @@ export function PuzzleCard({ puzzle, isCompleted, isAccessible }: Props) {
         </a>
       )}
 
-      {!isCompleted && puzzle.id && <PuzzleCodeInput puzzleId={puzzle.id} />}
+      {!isCompleted && puzzle.id && (
+        isMurdle
+          ? <MurdlePuzzle puzzleId={puzzle.id} />
+          : <PuzzleCodeInput puzzleId={puzzle.id} />
+      )}
     </Card>
   )
 }
