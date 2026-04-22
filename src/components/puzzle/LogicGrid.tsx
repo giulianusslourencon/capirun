@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import type { MurdleCellValue } from "@/lib/murdle";
 
 type Props = {
@@ -8,6 +9,8 @@ type Props = {
   cols: readonly string[];
   getValue: (row: string, col: string) => MurdleCellValue;
   onCycle: (row: string, col: string) => void;
+  rowLabel?: (row: string) => ReactNode;
+  colLabel?: (col: string) => ReactNode;
 };
 
 function CellContent({ value }: { value: MurdleCellValue }) {
@@ -35,7 +38,15 @@ function cellAriaLabel(row: string, col: string, value: MurdleCellValue): string
   return `${row} × ${col}: ${state}`;
 }
 
-export function LogicGrid({ title, rows, cols, getValue, onCycle }: Props) {
+export function LogicGrid({
+  title,
+  rows,
+  cols,
+  getValue,
+  onCycle,
+  rowLabel,
+  colLabel,
+}: Props) {
   return (
     <div className="flex flex-col gap-2">
       <h4 className="text-xs font-semibold uppercase tracking-wide text-gray-500">
@@ -45,14 +56,18 @@ export function LogicGrid({ title, rows, cols, getValue, onCycle }: Props) {
         <table className="border-separate border-spacing-0.5 text-xs">
           <thead>
             <tr>
-              <th className="w-20" aria-hidden="true" />
+              <th className="w-12" aria-hidden="true" />
               {cols.map((col) => (
                 <th
                   key={col}
                   scope="col"
-                  className="w-12 px-1 pb-1 align-bottom text-[10px] font-medium leading-tight text-gray-600"
+                  title={col}
+                  className="w-12 px-1 pb-1 align-bottom text-xl leading-none font-medium text-gray-700"
                 >
-                  <div className="line-clamp-2 break-words">{col}</div>
+                  <div className="flex items-end justify-center">
+                    {colLabel ? colLabel(col) : col}
+                    <span className="sr-only">{col}</span>
+                  </div>
                 </th>
               ))}
             </tr>
@@ -62,9 +77,13 @@ export function LogicGrid({ title, rows, cols, getValue, onCycle }: Props) {
               <tr key={row}>
                 <th
                   scope="row"
-                  className="w-20 pr-2 text-right text-[11px] font-medium leading-tight text-gray-700"
+                  title={row}
+                  className="w-12 pr-2 text-right text-xl leading-none font-medium text-gray-700"
                 >
-                  <div className="line-clamp-2 break-words">{row}</div>
+                  <div className="flex items-center justify-end">
+                    {rowLabel ? rowLabel(row) : row}
+                    <span className="sr-only">{row}</span>
+                  </div>
                 </th>
                 {cols.map((col) => {
                   const value = getValue(row, col);

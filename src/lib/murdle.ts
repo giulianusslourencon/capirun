@@ -20,6 +20,24 @@ export type Suspect = (typeof SUSPECTS)[number];
 export type Motivation = (typeof MOTIVATIONS)[number];
 export type Action = (typeof ACTIONS)[number];
 
+export const SUSPECT_EMOJI: Record<Suspect, string> = {
+  Enzo: "🎉",
+  Penajo: "🗺️",
+  Isabella: "🧼",
+};
+
+export const MOTIVATION_EMOJI: Record<Motivation, string> = {
+  "Provar que consegue": "🏆",
+  Irritação: "😤",
+  "Provocar alguém": "😈",
+};
+
+export const ACTION_EMOJI: Record<Action, string> = {
+  "Roubou o Lorenzzo Lopez": "👟",
+  "Hackeou equipamentos do WikiLab": "❄️",
+  "Apagou o bloco de vídeo da câmera": "✂️",
+};
+
 export type CategoryKey = "S" | "M" | "A";
 
 export const CATEGORY_LABEL: Record<CategoryKey, string> = {

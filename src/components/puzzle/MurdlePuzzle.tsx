@@ -3,12 +3,19 @@
 import { useCallback, useEffect, useState } from "react";
 import { LogicGrid } from "./LogicGrid";
 import { MurdleAnswerPicker } from "./MurdleAnswerPicker";
+import { MurdleDossier } from "./MurdleDossier";
 import {
   ACTIONS,
+  ACTION_EMOJI,
   MOTIVATIONS,
+  MOTIVATION_EMOJI,
   SUSPECTS,
+  SUSPECT_EMOJI,
+  type Action,
   type CategoryKey,
+  type Motivation,
   type MurdleGridState,
+  type Suspect,
   clearGridState,
   loadGridState,
   nextCellValue,
@@ -50,8 +57,14 @@ export function MurdlePuzzle({ puzzleId }: Props) {
     clearGridState(puzzleId);
   }, [puzzleId]);
 
+  const suspectLabel = (s: string) => SUSPECT_EMOJI[s as Suspect];
+  const motivationLabel = (m: string) => MOTIVATION_EMOJI[m as Motivation];
+  const actionLabel = (a: string) => ACTION_EMOJI[a as Action];
+
   return (
     <div className="mt-3 flex flex-col gap-5">
+      <MurdleDossier />
+
       <div className="flex flex-col gap-1">
         <p className="text-sm text-gray-700">
           Use o grid abaixo para anotar suas deduções. Clique em uma célula para
@@ -67,6 +80,8 @@ export function MurdlePuzzle({ puzzleId }: Props) {
         cols={MOTIVATIONS}
         getValue={(row, col) => getValue("S", row, "M", col)}
         onCycle={(row, col) => cycle("S", row, "M", col)}
+        rowLabel={suspectLabel}
+        colLabel={motivationLabel}
       />
 
       <LogicGrid
@@ -75,6 +90,8 @@ export function MurdlePuzzle({ puzzleId }: Props) {
         cols={ACTIONS}
         getValue={(row, col) => getValue("S", row, "A", col)}
         onCycle={(row, col) => cycle("S", row, "A", col)}
+        rowLabel={suspectLabel}
+        colLabel={actionLabel}
       />
 
       <LogicGrid
@@ -83,6 +100,8 @@ export function MurdlePuzzle({ puzzleId }: Props) {
         cols={ACTIONS}
         getValue={(row, col) => getValue("M", row, "A", col)}
         onCycle={(row, col) => cycle("M", row, "A", col)}
+        rowLabel={motivationLabel}
+        colLabel={actionLabel}
       />
 
       <MurdleAnswerPicker puzzleId={puzzleId} onSubmitted={handleSubmitted} />
