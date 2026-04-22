@@ -112,7 +112,6 @@ export default async function DayPage({ params, searchParams }: Props) {
                 puzzle={puzzle}
                 isCompleted={isCompleted}
                 isAccessible={isAccessible}
-                mood={mood}
               />
             </>
           )}
