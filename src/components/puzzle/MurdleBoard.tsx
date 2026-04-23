@@ -89,7 +89,7 @@ export function MurdleBoard({ getValue, onCycle }: Props) {
   const actionEmoji = (a: Action) => ACTION_EMOJI[a];
 
   return (
-    <div className="overflow-x-auto">
+    <div className="flex justify-center overflow-x-auto">
       <table className="border-separate border-spacing-0.5 text-xs">
         <thead>
           <tr>

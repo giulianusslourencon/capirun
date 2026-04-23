@@ -31,11 +31,11 @@ export function MurdleAnswerPicker({ puzzleId, onSubmitted }: Props) {
   };
 
   return (
-    <div className="mt-3 flex flex-col gap-3">
+    <div className="mt-3 flex flex-col items-center gap-3 text-center">
       <p className="text-sm text-gray-700">
         <strong>Quem roubou o Lorenzzo Lopez?</strong>
       </p>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap justify-center gap-2">
         {SUSPECTS.map((name) => {
           const isSelected = selected === name;
           return (
@@ -53,7 +53,7 @@ export function MurdleAnswerPicker({ puzzleId, onSubmitted }: Props) {
           );
         })}
       </div>
-      <div className="flex items-center gap-3">
+      <div className="flex items-center justify-center gap-3">
         <Button
           onClick={handleSubmit}
           disabled={!selected || status === "loading"}
