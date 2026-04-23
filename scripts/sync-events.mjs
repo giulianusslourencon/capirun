@@ -108,6 +108,7 @@ const CONTENT_TYPES = {
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
   '.webp': 'image/webp',
+  '.svg': 'image/svg+xml',
 }
 
 async function pushFile(storagePath, localPath) {

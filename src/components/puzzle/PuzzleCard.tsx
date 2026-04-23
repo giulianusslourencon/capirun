@@ -19,7 +19,7 @@ export function PuzzleCard({ puzzle, isCompleted, isAccessible, initialAccusatio
 
   const isMurdle = puzzle.day_number === 5
 
-  const thumbnailPath = puzzle.content_path?.replace(/\.md$/, '-thumbnail.png')
+  const thumbnailPath = puzzle.content_path?.replace(/\.md$/, '-thumbnail.svg')
   const thumbnailUrl = thumbnailPath
     ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/events/${thumbnailPath}`
     : null
