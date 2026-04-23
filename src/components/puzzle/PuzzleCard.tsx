@@ -11,9 +11,10 @@ type Props = {
   puzzle: Puzzle
   isCompleted: boolean
   isAccessible: boolean
+  initialAccusation?: string | null
 }
 
-export function PuzzleCard({ puzzle, isCompleted, isAccessible }: Props) {
+export function PuzzleCard({ puzzle, isCompleted, isAccessible, initialAccusation }: Props) {
   if (!isAccessible) return <PuzzleLock />
 
   const isMurdle = puzzle.day_number === 5
@@ -59,10 +60,10 @@ export function PuzzleCard({ puzzle, isCompleted, isAccessible }: Props) {
         </a>
       )}
 
-      {!isCompleted && puzzle.id && (
+      {puzzle.id && (
         isMurdle
-          ? <MurdlePuzzle puzzleId={puzzle.id} />
-          : <PuzzleCodeInput puzzleId={puzzle.id} />
+          ? <MurdlePuzzle puzzleId={puzzle.id} initialAccusation={initialAccusation} />
+          : !isCompleted && <PuzzleCodeInput puzzleId={puzzle.id} />
       )}
     </Card>
   )

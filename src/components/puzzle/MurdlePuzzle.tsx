@@ -7,7 +7,6 @@ import { MurdleDossier } from "./MurdleDossier";
 import {
   type CategoryKey,
   type MurdleGridState,
-  clearGridState,
   loadGridState,
   nextCellValue,
   pairKey,
@@ -16,9 +15,10 @@ import {
 
 type Props = {
   puzzleId: string;
+  initialAccusation?: string | null;
 };
 
-export function MurdlePuzzle({ puzzleId }: Props) {
+export function MurdlePuzzle({ puzzleId, initialAccusation }: Props) {
   const [state, setState] = useState<MurdleGridState>({});
 
   useEffect(() => {
@@ -44,10 +44,6 @@ export function MurdlePuzzle({ puzzleId }: Props) {
     [state],
   );
 
-  const handleSubmitted = useCallback(() => {
-    clearGridState(puzzleId);
-  }, [puzzleId]);
-
   return (
     <div className="mt-3 flex flex-col gap-5">
       <MurdleDossier />
@@ -63,7 +59,10 @@ export function MurdlePuzzle({ puzzleId }: Props) {
 
       <MurdleBoard getValue={getValue} onCycle={cycle} />
 
-      <MurdleAnswerPicker puzzleId={puzzleId} onSubmitted={handleSubmitted} />
+      <MurdleAnswerPicker
+        puzzleId={puzzleId}
+        initialAccusation={initialAccusation}
+      />
     </div>
   );
 }

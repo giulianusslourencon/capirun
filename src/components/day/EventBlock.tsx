@@ -9,6 +9,7 @@ type Props = {
   puzzle: Puzzle;
   isCompleted: boolean;
   isAccessible: boolean;
+  initialAccusation?: string | null;
 };
 
 type NarrativeBlock =
@@ -160,6 +161,7 @@ export function EventBlock({
   puzzle,
   isCompleted,
   isAccessible,
+  initialAccusation,
 }: Props) {
   const { clues, testimonies, narrativeWithoutDossier } = extractDossier(
     event.text_before ?? "",
@@ -208,6 +210,7 @@ export function EventBlock({
         puzzle={puzzle}
         isCompleted={isCompleted}
         isAccessible={isAccessible}
+        initialAccusation={initialAccusation}
       />
 
       {isCompleted && event.text_after && (

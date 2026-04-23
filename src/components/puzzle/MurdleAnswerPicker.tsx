@@ -8,23 +8,34 @@ import { submitMurdleAccusation } from "@/lib/queries/murdle";
 
 type Props = {
   puzzleId: string;
-  onSubmitted?: () => void;
+  initialAccusation?: string | null;
 };
 
 type Status = "idle" | "loading" | "error";
 
-export function MurdleAnswerPicker({ puzzleId, onSubmitted }: Props) {
-  const [selected, setSelected] = useState<Suspect | null>(null);
+function toSuspect(value: string | null | undefined): Suspect | null {
+  if (!value) return null;
+  return (SUSPECTS as readonly string[]).includes(value)
+    ? (value as Suspect)
+    : null;
+}
+
+export function MurdleAnswerPicker({ puzzleId, initialAccusation }: Props) {
+  const initial = toSuspect(initialAccusation);
+  const [selected, setSelected] = useState<Suspect | null>(initial);
   const [status, setStatus] = useState<Status>("idle");
   const router = useRouter();
 
+  const hasSubmitted = initial !== null;
+  const isUnchanged = selected !== null && selected === initial;
+
   const handleSubmit = async () => {
-    if (!selected) return;
+    if (!selected || isUnchanged) return;
     setStatus("loading");
     try {
       await submitMurdleAccusation(puzzleId, selected);
-      onSubmitted?.();
       router.refresh();
+      setStatus("idle");
     } catch {
       setStatus("error");
     }
@@ -35,6 +46,11 @@ export function MurdleAnswerPicker({ puzzleId, onSubmitted }: Props) {
       <p className="text-sm text-gray-700">
         <strong>Quem roubou o Lorenzzo Lopez?</strong>
       </p>
+      {hasSubmitted && (
+        <p className="text-xs text-gray-500">
+          Acusação atual: <strong>{initial}</strong>
+        </p>
+      )}
       <div className="flex flex-wrap justify-center gap-2">
         {SUSPECTS.map((name) => {
           const isSelected = selected === name;
@@ -56,14 +72,21 @@ export function MurdleAnswerPicker({ puzzleId, onSubmitted }: Props) {
       <div className="flex items-center justify-center gap-3">
         <Button
           onClick={handleSubmit}
-          disabled={!selected || status === "loading"}
+          disabled={!selected || isUnchanged || status === "loading"}
         >
-          {status === "loading" ? "Enviando..." : "Confirmar acusação"}
+          {status === "loading"
+            ? "Enviando..."
+            : hasSubmitted
+              ? "Atualizar acusação"
+              : "Confirmar acusação"}
         </Button>
-        {selected && status !== "loading" && (
+        {selected && status !== "loading" && !isUnchanged && (
           <span className="text-xs text-gray-500">
             Acusando: <strong>{selected}</strong>
           </span>
+        )}
+        {isUnchanged && status !== "loading" && (
+          <span className="text-xs text-gray-400">Nenhuma alteração</span>
         )}
       </div>
       <p className="text-xs text-gray-400">

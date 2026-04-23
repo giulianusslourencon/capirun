@@ -11,6 +11,7 @@ import { CapiVisioMoodBanner } from '@/components/capivisio/CapiVisioMoodBanner'
 import { readEventContent } from '@/lib/content'
 import { computeAccessibleIds } from '@/lib/utils'
 import { getCurrentMood } from '@/lib/capiVisioMood'
+import { getMyLastMurdleAccusation } from '@/lib/queries/murdle'
 import type { Puzzle } from '@/types/tables'
 
 type Props = {
@@ -61,11 +62,20 @@ export default async function DayPage({ params, searchParams }: Props) {
 
     const isAccessible = accessibleIds.has(puzzle.id)
     const isCompleted = completedIds.has(puzzle.id)
+    const shouldFetchAccusation =
+      isAccessible && isCompleted && puzzle.day_number === 5
 
-    let event = null
-    if (isAccessible && puzzle.content_path) {
-      event = await readEventContent(puzzle.content_path)
-      if (!event) console.error(`[DayPage] Failed to load content: ${puzzle.content_path}`)
+    const [event, initialAccusation] = await Promise.all([
+      isAccessible && puzzle.content_path
+        ? readEventContent(puzzle.content_path)
+        : Promise.resolve(null),
+      shouldFetchAccusation
+        ? getMyLastMurdleAccusation(supabase, user!.id, puzzle.id)
+        : Promise.resolve(null),
+    ])
+
+    if (isAccessible && puzzle.content_path && !event) {
+      console.error(`[DayPage] Failed to load content: ${puzzle.content_path}`)
     }
 
     const backLink = (
@@ -112,6 +122,7 @@ export default async function DayPage({ params, searchParams }: Props) {
                 puzzle={puzzle}
                 isCompleted={isCompleted}
                 isAccessible={isAccessible}
+                initialAccusation={initialAccusation}
               />
             </>
           )}
