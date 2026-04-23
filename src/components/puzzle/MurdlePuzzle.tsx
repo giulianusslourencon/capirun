@@ -1,21 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { LogicGrid } from "./LogicGrid";
 import { MurdleAnswerPicker } from "./MurdleAnswerPicker";
+import { MurdleBoard } from "./MurdleBoard";
 import { MurdleDossier } from "./MurdleDossier";
 import {
-  ACTIONS,
-  ACTION_EMOJI,
-  MOTIVATIONS,
-  MOTIVATION_EMOJI,
-  SUSPECTS,
-  SUSPECT_EMOJI,
-  type Action,
   type CategoryKey,
-  type Motivation,
   type MurdleGridState,
-  type Suspect,
   clearGridState,
   loadGridState,
   nextCellValue,
@@ -57,10 +48,6 @@ export function MurdlePuzzle({ puzzleId }: Props) {
     clearGridState(puzzleId);
   }, [puzzleId]);
 
-  const suspectLabel = (s: string) => SUSPECT_EMOJI[s as Suspect];
-  const motivationLabel = (m: string) => MOTIVATION_EMOJI[m as Motivation];
-  const actionLabel = (a: string) => ACTION_EMOJI[a as Action];
-
   return (
     <div className="mt-3 flex flex-col gap-5">
       <MurdleDossier />
@@ -74,35 +61,7 @@ export function MurdlePuzzle({ puzzleId }: Props) {
         </p>
       </div>
 
-      <LogicGrid
-        title="Suspeito × Motivação"
-        rows={SUSPECTS}
-        cols={MOTIVATIONS}
-        getValue={(row, col) => getValue("S", row, "M", col)}
-        onCycle={(row, col) => cycle("S", row, "M", col)}
-        rowLabel={suspectLabel}
-        colLabel={motivationLabel}
-      />
-
-      <LogicGrid
-        title="Suspeito × Ação"
-        rows={SUSPECTS}
-        cols={ACTIONS}
-        getValue={(row, col) => getValue("S", row, "A", col)}
-        onCycle={(row, col) => cycle("S", row, "A", col)}
-        rowLabel={suspectLabel}
-        colLabel={actionLabel}
-      />
-
-      <LogicGrid
-        title="Motivação × Ação"
-        rows={MOTIVATIONS}
-        cols={ACTIONS}
-        getValue={(row, col) => getValue("M", row, "A", col)}
-        onCycle={(row, col) => cycle("M", row, "A", col)}
-        rowLabel={motivationLabel}
-        colLabel={actionLabel}
-      />
+      <MurdleBoard getValue={getValue} onCycle={cycle} />
 
       <MurdleAnswerPicker puzzleId={puzzleId} onSubmitted={handleSubmitted} />
     </div>
