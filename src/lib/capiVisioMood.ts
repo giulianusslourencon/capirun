@@ -144,6 +144,29 @@ export const DAY_MOODS: Record<number, DayMood> = {
   },
 };
 
+export const DAY_5_POST_SUBMISSION: DayMood = {
+  day: 5,
+  weekday: "Sexta",
+  mood: "Detetive satisfeita",
+  quotes: [
+    "Caso encerrado (por ora).",
+    "A resposta sai no All Hands.",
+    "Tenho meus palpites.",
+    "Guarda essa suspeita.",
+    "Elementar, meu caro.",
+  ],
+  pressure: "leve",
+  pressureLabel: "Caso entregue",
+  accent: {
+    banner: "bg-indigo-50 border-indigo-300 text-indigo-900",
+    strip: "bg-indigo-100 text-indigo-900 border-indigo-300",
+    chip: "bg-indigo-100 text-indigo-800 border-indigo-300",
+    badge: "bg-indigo-300 text-indigo-950",
+  },
+  defaultExpression: "sleuth",
+  intensity: 0.3,
+};
+
 export function moodForDay(day: number | null | undefined): DayMood | null {
   if (day == null) return null;
   return DAY_MOODS[day] ?? null;
@@ -181,6 +204,7 @@ export async function getCurrentMood(
   if (!calendar) return null;
 
   let effectiveDay = currentOpenDay;
+  let day5Submitted = false;
 
   if (playerId) {
     const [{ data: puzzles }, { data: progress }] = await Promise.all([
@@ -209,14 +233,21 @@ export async function getCurrentMood(
     const expectedFinished = currentOpenDay - 1;
     const lag = Math.max(expectedFinished - lastFinishedDay, 0);
     effectiveDay = Math.min(currentOpenDay + lag, 5);
+
+    const day5Ids = puzzlesByDay[5];
+    day5Submitted =
+      !!day5Ids && day5Ids.length > 0 && day5Ids.every((id) => completedIds.has(id));
   }
 
-  const intensity = DAY_MOODS[effectiveDay] ?? calendar;
+  const usePostSubmission = effectiveDay === 5 && day5Submitted;
+  const intensity = usePostSubmission
+    ? DAY_5_POST_SUBMISSION
+    : DAY_MOODS[effectiveDay] ?? calendar;
 
   return {
     day: calendar.day,
     weekday: calendar.weekday,
-    quotes: calendar.quotes,
+    quotes: usePostSubmission ? DAY_5_POST_SUBMISSION.quotes : calendar.quotes,
     mood: intensity.mood,
     pressure: intensity.pressure,
     pressureLabel: intensity.pressureLabel,

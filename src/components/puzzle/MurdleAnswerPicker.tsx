@@ -35,7 +35,7 @@ export function MurdleAnswerPicker({ puzzleId, initialAccusation }: Props) {
     setStatus("loading");
     try {
       await submitMurdleAccusation(puzzleId, selected);
-      fireCapiVisioExpression("celebrating", 1800);
+      fireCapiVisioExpression("sleuth", 2400);
       router.refresh();
       setStatus("idle");
     } catch {

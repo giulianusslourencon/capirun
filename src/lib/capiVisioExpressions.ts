@@ -10,6 +10,7 @@ export type CapiVisioExpression =
   | 'relieved'
   | 'celebrating'
   | 'confused'
+  | 'sleuth'
 
 export const PRESSURE_INTENSITY: Record<FridayPressure, number> = {
   leve: 0.15,
@@ -151,6 +152,19 @@ const EXPRESSIONS: Record<CapiVisioExpression, ExpressionParams> = {
     eyeScaleY: 1,
     mouthPath: 'M 44 68 Q 47 66 50 68 T 56 68',
     headTilt: -6,
+  },
+  sleuth: {
+    ...BASE,
+    browLeftRot: -14,
+    browRightRot: -2,
+    browLeftY: -3,
+    browRightY: 0,
+    eyeScaleYLeft: 0.75,
+    eyeScaleYRight: 0.35,
+    eyeScaleY: 1,
+    mouthPath: 'M 43 67 Q 48 64 55 68',
+    cheekOpacity: 0.35,
+    headTilt: 4,
   },
 }
 

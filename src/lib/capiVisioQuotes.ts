@@ -5,6 +5,13 @@ export const REACTION_QUOTES: Partial<Record<CapiVisioExpression, string[]>> = {
   confused: ['Hmm… não foi dessa vez.', 'Tenta de novo.', 'Achei que era essa.'],
   relieved: ['Ufa.', 'Ainda bem.'],
   frustrated: ['Ah, qual é…', 'Tô quase desistindo.'],
+  sleuth: [
+    'Elementar.',
+    'Tenho meus palpites.',
+    'Hmm, interessante…',
+    'A resposta sai no All Hands.',
+    'Eu sabia.',
+  ],
 }
 
 export function pickQuote(list: readonly string[], exclude?: string): string {
