@@ -7,7 +7,6 @@ import { Card } from '@/components/ui/Card'
 import { DayProgress } from '@/components/day/DayProgress'
 import { EventCalendarEntry } from '@/components/day/EventCalendarEntry'
 import { EventBlock } from '@/components/day/EventBlock'
-import { CapiVisioMoodBanner } from '@/components/capivisio/CapiVisioMoodBanner'
 import { Breadcrumb } from '@/components/navigation/Breadcrumb'
 import { PrevNextNav, type NavTarget } from '@/components/navigation/PrevNextNav'
 import { readEventContent } from '@/lib/content'
@@ -200,7 +199,6 @@ export default async function DayPage({ params, searchParams }: Props) {
             </>
           ) : (
             <>
-              <CapiVisioMoodBanner mood={mood} />
               <EventBlock
                 event={event}
                 puzzle={puzzle}
@@ -252,7 +250,6 @@ export default async function DayPage({ params, searchParams }: Props) {
           ]}
         />
         {dayTopNav}
-        <CapiVisioMoodBanner mood={mood} />
         <div className="mb-4">
           <DayProgress completed={completedCount} total={puzzles.length} />
         </div>
