@@ -1,5 +1,9 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { Database } from '@/types/database'
+import {
+  PRESSURE_INTENSITY,
+  type CapiVisioExpression,
+} from '@/lib/capiVisioExpressions'
 
 export type FridayPressure = 'leve' | 'moderada' | 'forte' | 'urgente' | 'critica'
 
@@ -18,6 +22,8 @@ export type DayMood = {
   pressure: FridayPressure
   pressureLabel: string
   accent: MoodAccent
+  defaultExpression: CapiVisioExpression
+  intensity: number
 }
 
 export const DAY_MOODS: Record<number, DayMood> = {
@@ -34,6 +40,8 @@ export const DAY_MOODS: Record<number, DayMood> = {
       chip: 'bg-sky-100 text-sky-800 border-sky-200',
       badge: 'bg-sky-200 text-sky-900',
     },
+    defaultExpression: 'curious',
+    intensity: PRESSURE_INTENSITY.leve,
   },
   2: {
     day: 2,
@@ -48,6 +56,8 @@ export const DAY_MOODS: Record<number, DayMood> = {
       chip: 'bg-amber-100 text-amber-800 border-amber-200',
       badge: 'bg-amber-200 text-amber-900',
     },
+    defaultExpression: 'focused',
+    intensity: PRESSURE_INTENSITY.moderada,
   },
   3: {
     day: 3,
@@ -62,6 +72,8 @@ export const DAY_MOODS: Record<number, DayMood> = {
       chip: 'bg-orange-100 text-orange-800 border-orange-300',
       badge: 'bg-orange-300 text-orange-950',
     },
+    defaultExpression: 'stressed',
+    intensity: PRESSURE_INTENSITY.forte,
   },
   4: {
     day: 4,
@@ -76,6 +88,8 @@ export const DAY_MOODS: Record<number, DayMood> = {
       chip: 'bg-rose-100 text-rose-800 border-rose-300',
       badge: 'bg-rose-300 text-rose-950',
     },
+    defaultExpression: 'determined',
+    intensity: PRESSURE_INTENSITY.urgente,
   },
   5: {
     day: 5,
@@ -90,6 +104,8 @@ export const DAY_MOODS: Record<number, DayMood> = {
       chip: 'bg-red-100 text-red-900 border-red-400',
       badge: 'bg-red-500 text-white',
     },
+    defaultExpression: 'stressed',
+    intensity: PRESSURE_INTENSITY.critica,
   },
 }
 
@@ -167,5 +183,7 @@ export async function getCurrentMood(
     pressure: intensity.pressure,
     pressureLabel: intensity.pressureLabel,
     accent: intensity.accent,
+    defaultExpression: intensity.defaultExpression,
+    intensity: intensity.intensity,
   }
 }

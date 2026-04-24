@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { submitCode } from '@/lib/queries/puzzles'
 import { Button } from '@/components/ui/Button'
+import { fireCapiVisioExpression } from '@/lib/capiVisioExpressions'
 
 export function PuzzleCodeInput({ puzzleId }: { puzzleId: string }) {
   const [code, setCode] = useState('')
@@ -15,11 +16,14 @@ export function PuzzleCodeInput({ puzzleId }: { puzzleId: string }) {
     try {
       const correct = await submitCode(puzzleId, code)
       if (correct) {
+        fireCapiVisioExpression('celebrating', 1800)
         router.refresh()
       } else {
+        fireCapiVisioExpression('confused', 1200)
         setStatus('error')
       }
     } catch {
+      fireCapiVisioExpression('confused', 1200)
       setStatus('error')
     }
   }

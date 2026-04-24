@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { SUSPECTS, type Suspect } from "@/lib/murdle";
 import { submitMurdleAccusation } from "@/lib/queries/murdle";
+import { fireCapiVisioExpression } from "@/lib/capiVisioExpressions";
 
 type Props = {
   puzzleId: string;
@@ -34,9 +35,11 @@ export function MurdleAnswerPicker({ puzzleId, initialAccusation }: Props) {
     setStatus("loading");
     try {
       await submitMurdleAccusation(puzzleId, selected);
+      fireCapiVisioExpression("celebrating", 1800);
       router.refresh();
       setStatus("idle");
     } catch {
+      fireCapiVisioExpression("confused", 1200);
       setStatus("error");
     }
   };
