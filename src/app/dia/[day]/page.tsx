@@ -165,7 +165,7 @@ export default async function DayPage({ params, searchParams }: Props) {
         nextDisabled={nextEventNav.disabled}
         prevDisabledReason={prevEventNav.reason}
         nextDisabledReason={nextEventNav.reason}
-        className="mt-8"
+        className="mt-8 mb-24 sm:mb-32"
       />
     )
 
@@ -227,18 +227,6 @@ export default async function DayPage({ params, searchParams }: Props) {
     />
   )
 
-  const dayBottomNav = (
-    <PrevNextNav
-      prev={prevDayNav.target}
-      next={nextDayNav.target}
-      prevDisabled={prevDayNav.disabled}
-      nextDisabled={nextDayNav.disabled}
-      prevDisabledReason={prevDayNav.reason}
-      nextDisabledReason={nextDayNav.reason}
-      className="mt-8"
-    />
-  )
-
   return (
     <>
       <Navbar mood={mood} />
@@ -271,7 +259,6 @@ export default async function DayPage({ params, searchParams }: Props) {
             </div>
           </Card>
         )}
-        {dayBottomNav}
       </PageWrapper>
     </>
   )
