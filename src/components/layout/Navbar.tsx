@@ -29,6 +29,7 @@ export function Navbar({ mood = null }: Props = {}) {
     { href: '/home', label: 'Início' },
     { href: '/ranking', label: 'Ranking' },
     { href: '/faq', label: 'FAQ' },
+    { href: '/referencias', label: 'Referências' },
   ]
 
   return (
