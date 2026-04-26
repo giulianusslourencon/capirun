@@ -13,8 +13,27 @@ type Props = {
 };
 
 type NarrativeBlock =
-  | { type: "dialog"; name: string; content: string }
+  | { type: "dialog"; name: string; content: string; isThought: boolean }
   | { type: "prose"; content: string };
+
+function detectThought(text: string): { isThought: boolean; content: string } {
+  const wrappedAsterisk =
+    text.startsWith("*") &&
+    text.endsWith("*") &&
+    !text.startsWith("**") &&
+    !text.endsWith("**") &&
+    text.length >= 2;
+  const wrappedUnderscore =
+    text.startsWith("_") &&
+    text.endsWith("_") &&
+    !text.startsWith("__") &&
+    !text.endsWith("__") &&
+    text.length >= 2;
+  if (wrappedAsterisk || wrappedUnderscore) {
+    return { isThought: true, content: text.slice(1, -1).trim() };
+  }
+  return { isThought: false, content: text };
+}
 
 function parseNarrativeBlocks(markdown: string): NarrativeBlock[] {
   return markdown
@@ -23,9 +42,11 @@ function parseNarrativeBlocks(markdown: string): NarrativeBlock[] {
       const trimmed = para.trim();
       if (!trimmed) return [];
       const m = trimmed.match(/^>\s*\*\*(.+?):\*\*\s*([\s\S]*)$/);
-      return m
-        ? [{ type: "dialog" as const, name: m[1], content: m[2].trim() }]
-        : [{ type: "prose" as const, content: trimmed }];
+      if (!m) return [{ type: "prose" as const, content: trimmed }];
+      const { isThought, content } = detectThought(m[2].trim());
+      return [
+        { type: "dialog" as const, name: m[1], content, isThought },
+      ];
     })
     .flat();
 }
@@ -114,16 +135,34 @@ const PERSON_EMOJI: Record<string, string> = {
 
 function DialogBox({
   name,
+  isThought,
   children,
 }: {
   name: string;
+  isThought: boolean;
   children: React.ReactNode;
 }) {
   const emoji = PERSON_EMOJI[name];
+  const containerClass = isThought
+    ? "rounded-lg border border-dashed border-gray-300 overflow-hidden text-sm"
+    : "rounded-lg border border-gray-200 overflow-hidden text-sm shadow-sm";
+  const headerClass = isThought
+    ? "bg-gray-50/60 border-b border-dashed border-gray-300 px-3 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wide flex items-center gap-1.5"
+    : "bg-gray-50 border-b border-gray-200 px-3 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wide";
   return (
-    <div className="rounded-lg border border-gray-200 overflow-hidden text-sm shadow-sm">
-      <div className="bg-gray-50 border-b border-gray-200 px-3 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-        {emoji && <span className="mr-1.5">{emoji}</span>}{name}
+    <div className={containerClass}>
+      <div className={headerClass}>
+        {emoji && <span>{emoji}</span>}
+        <span>{name}</span>
+        {isThought && (
+          <span
+            className="ml-auto text-sm normal-case tracking-normal"
+            aria-label="pensa"
+            title="pensa"
+          >
+            💭
+          </span>
+        )}
       </div>
       <div className="px-3 py-2.5 text-gray-800 leading-relaxed italic prose prose-sm max-w-none">
         {children}
@@ -143,7 +182,7 @@ function NarrativeSection({
     <div className="flex flex-col gap-2">
       {parseNarrativeBlocks(markdown).map((block, i) =>
         block.type === "dialog" ? (
-          <DialogBox key={i} name={block.name}>
+          <DialogBox key={i} name={block.name} isThought={block.isThought}>
             <ReactMarkdown>{block.content}</ReactMarkdown>
           </DialogBox>
         ) : (
