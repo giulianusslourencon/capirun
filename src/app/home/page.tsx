@@ -3,6 +3,7 @@ import { DayCard } from '@/components/day/DayCard'
 import { Navbar } from '@/components/layout/Navbar'
 import { PageWrapper } from '@/components/layout/PageWrapper'
 import { IntroModal } from '@/components/intro/IntroModal'
+import { IntroTrigger } from '@/components/intro/IntroTrigger'
 import { getCurrentMood } from '@/lib/capiVisioMood'
 import { computeDayStatuses } from '@/lib/utils'
 
@@ -43,7 +44,11 @@ export default async function HomePage() {
     <>
       <IntroModal />
       <Navbar mood={mood} />
-      <PageWrapper title="Dias">
+      <PageWrapper>
+        <div className="mb-6 flex items-baseline justify-between">
+          <h1 className="text-2xl font-bold text-gray-900">Dias</h1>
+          <IntroTrigger />
+        </div>
         <div className="flex flex-col gap-4">
           {(days ?? []).map((day) => (
             <DayCard

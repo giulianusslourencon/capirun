@@ -23,13 +23,6 @@ export function Navbar({ mood = null }: Props = {}) {
     router.push('/login')
   }
 
-  const handleShowIntro = () => {
-    setOpen(false)
-    localStorage.removeItem('capirun:intro_seen')
-    window.dispatchEvent(new Event('show-intro'))
-    if (pathname !== '/home') router.push('/home')
-  }
-
   const links = [
     { href: '/home', label: 'Início' },
     { href: '/ranking', label: 'Ranking' },
@@ -53,12 +46,6 @@ export function Navbar({ mood = null }: Props = {}) {
                 {label}
               </Link>
             ))}
-            <button
-              onClick={handleShowIntro}
-              className="text-sm text-gray-600 hover:text-gray-900"
-            >
-              Introdução
-            </button>
             <button
               onClick={handleLogout}
               className="text-sm text-gray-500 hover:text-gray-700"
@@ -91,12 +78,6 @@ export function Navbar({ mood = null }: Props = {}) {
                   {label}
                 </Link>
               ))}
-              <button
-                onClick={handleShowIntro}
-                className="rounded-md px-2 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
-              >
-                Introdução
-              </button>
               <button
                 onClick={handleLogout}
                 className="rounded-md px-2 py-2 text-left text-sm text-gray-500 hover:bg-gray-100"
