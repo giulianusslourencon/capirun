@@ -44,9 +44,7 @@ function parseNarrativeBlocks(markdown: string): NarrativeBlock[] {
       const m = trimmed.match(/^>\s*\*\*(.+?):\*\*\s*([\s\S]*)$/);
       if (!m) return [{ type: "prose" as const, content: trimmed }];
       const { isThought, content } = detectThought(m[2].trim());
-      return [
-        { type: "dialog" as const, name: m[1], content, isThought },
-      ];
+      return [{ type: "dialog" as const, name: m[1], content, isThought }];
     })
     .flat();
 }
@@ -122,15 +120,16 @@ function extractDossier(markdown: string): DossierExtraction {
 }
 
 const PERSON_EMOJI: Record<string, string> = {
-  "CapiVisio": "🦫",
-  "Leo": "🍫",
-  "MauMau": "🕵️‍♂️",
-  "Isabella": "🧼",
-  "Nicolas": "🐊",
-  "Penajo": "🗺️",
-  "Ramos": "🦝",
-  "Chowder": "🧙",
-  "Enzo": "🎉",
+  CapiVisio: "🦫",
+  Leo: "🍫",
+  MauMau: "🕵️‍♂️",
+  Isabella: "🧼",
+  Nicolas: "🐊",
+  Penajo: "🗺️",
+  Ramos: "🦝",
+  Chowder: "🧙",
+  Enzo: "🎉",
+  Colega: "🦒",
 };
 
 function DialogBox({
