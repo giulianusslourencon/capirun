@@ -100,7 +100,12 @@ const sudokupadItems: FaqItem[] = [
   {
     question: "Ferramenta de caneta",
     answer:
-      "A ferramenta de caneta permite desenhar linhas e setas livremente sobre a grade, útil para anotar relações entre células ou marcar possíveis caminhos. Para usá-la, primeiro ative-a clicando no ícone de engrenagem (⚙) e selecionando \"Enable pen tool\".",
+      'A ferramenta de caneta permite desenhar linhas e setas livremente sobre a grade, útil para anotar relações entre células ou marcar possíveis caminhos. Para usá-la, primeiro ative-a clicando no ícone de engrenagem (⚙) e selecionando "Enable pen tool".',
+  },
+  {
+    question: "Por que a animação com dígitos 3 nos cantos do puzzle?",
+    answer:
+      "That's 3 in the corner\nThat's 3 in the spotlight\nLosing its religion",
   },
 ];
 
@@ -167,14 +172,23 @@ function FaqSection({ title, items }: { title: string; items: FaqItem[] }) {
   return (
     <section className="flex flex-col gap-2">
       <h2 className="text-xl font-semibold text-gray-800 mb-2">{title}</h2>
-      <Accordion type="multiple" className="w-full rounded-xl border border-gray-200 bg-white shadow-sm divide-y divide-gray-200">
+      <Accordion
+        type="multiple"
+        className="w-full rounded-xl border border-gray-200 bg-white shadow-sm divide-y divide-gray-200"
+      >
         {items.map((item) => (
-          <AccordionItem key={item.question} value={item.question} className="px-5 not-last:border-b-0">
+          <AccordionItem
+            key={item.question}
+            value={item.question}
+            className="px-5 not-last:border-b-0"
+          >
             <AccordionTrigger className="font-semibold text-gray-900 py-4 text-base">
               {item.question}
             </AccordionTrigger>
             <AccordionContent>
-              <p className="text-sm text-gray-600 leading-relaxed">{item.answer}</p>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                {item.answer}
+              </p>
               {item.image && (
                 <div className="flex justify-center mt-3">
                   <img
@@ -197,7 +211,9 @@ function FaqSection({ title, items }: { title: string; items: FaqItem[] }) {
 
 export default async function FaqPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   const mood = await getCurrentMood(supabase, user?.id);
   return (
     <>
