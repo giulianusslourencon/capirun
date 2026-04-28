@@ -23,7 +23,8 @@ export type DayMood = {
   day: number;
   weekday: string;
   mood: string;
-  quotes: string[];
+  dayQuotes: string[];
+  moodQuotes: string[];
   pressure: FridayPressure;
   pressureLabel: string;
   accent: MoodAccent;
@@ -36,13 +37,23 @@ export const DAY_MOODS: Record<number, DayMood> = {
     day: 1,
     weekday: "Segunda",
     mood: "Tranquila, preguiçosa",
-    quotes: [
+    dayQuotes: [
       "Monday left me broken…",
-      "Tem café na implantação?",
       "Sexta parece tão longe daqui.",
       "Ai gente, segunda de novo…",
-      "Meu cérebro ainda tá no fim de semana.",
       "O patê de tomate tava tão bom… saudades já.",
+      "Domingão à noite eu já sabia que ia ser assim.",
+      "Quem inventou segunda foi quem nunca trabalhou, juro.",
+      "Hoje a meta é só não chorar até o almoço.",
+      "Acordei mas a alma não veio junto.",
+    ],
+    moodQuotes: [
+      "Tem café na implantação?",
+      "Meu cérebro ainda tá no fim de semana.",
+      "Tô de boa, deixa eu existir.",
+      "Modo low energy ativado, não me cobra nada hoje.",
+      "Tô fazendo meio expediente mental.",
+      "O corpo veio, a vontade ficou.",
     ],
     pressure: "leve",
     pressureLabel: "Pressão pra sexta: leve",
@@ -59,14 +70,24 @@ export const DAY_MOODS: Record<number, DayMood> = {
     day: 2,
     weekday: "Terça",
     mood: "Animada virando frustrada",
-    quotes: [
+    dayQuotes: [
       "É a super terça!",
       "Ansiosa pela game night.",
       "Vamos pro sushi hoje?",
+      "Terça é o limbo da semana.",
+      "Quem batizou de terça-feira já tava cansado.",
+      "Cadê a galera pra game night?",
+      "Tem sushi pra todo mundo, né?",
+    ],
+    moodQuotes: [
       "Cadê aquela motivação de ontem?",
       "Já deveria estar mais adiantada, né?",
       "Será que eu dou conta disso tudo?",
       "Tô tentando, juro que tô tentando.",
+      "Aquele frio na barriga já começou.",
+      "Olha o tanto de coisa, gente.",
+      "Tô organizando a cabeça aqui, calma.",
+      "Já vi que vai dar trabalho.",
     ],
     pressure: "moderada",
     pressureLabel: "Pressão pra sexta: moderada",
@@ -83,15 +104,25 @@ export const DAY_MOODS: Record<number, DayMood> = {
     day: 3,
     weekday: "Quarta",
     mood: "Estressada, perdida",
-    quotes: [
+    dayQuotes: [
       "Quarta já?! Cadê meu chão.",
+      "Leg day hoje, não sei se aguento pro futebol de sabão.",
+      "Quartou.",
+      "É 4ª feira ou 14ª?",
+      "Metade da semana — e da minha sanidade.",
+    ],
+    moodQuotes: [
       "CADÊ O CAFÉ.",
       "Respira. Respira. Respira.",
       "Será que dá tempo? Não responde.",
       "Ai gente do céu…",
       "Tô passada com a quantidade de coisa.",
-      "Leg day hoje, não sei se aguento pro futebol de sabão.",
       "Alguém me traz um Bonobon de beijinho pelamor.",
+      "Surtando em silêncio aqui.",
+      "Tô funcionando no automático, não pergunta.",
+      "Pelamor de Deus, alguém.",
+      "Já não sei mais o que tô fazendo.",
+      "A capivara hoje só responde no grito.",
     ],
     pressure: "forte",
     pressureLabel: "Pressão pra sexta: forte",
@@ -108,15 +139,25 @@ export const DAY_MOODS: Record<number, DayMood> = {
     day: 4,
     weekday: "Quinta",
     mood: "Foco com pânico",
-    quotes: [
+    dayQuotes: [
       "A dinâmica começa AMANHÃ AAAAAAA.",
+      "Hoje eu me acabo no bar.",
+      "Ninguém segura a capivara na sinuca.",
+      "Vamos cantar o que no karaokê?",
+      "Quinta é sexta da galera valente.",
+      "Amanhã o circo pega fogo.",
+      "Hoje tem happy hour ou não tem?",
+      "É hoje que a sinuca decide quem é quem.",
+    ],
+    moodQuotes: [
       "Guys, come to help.",
       "This is fine...",
       "Tô no meu último neurônio.",
       "Capivara não foi feita pra deadline.",
-      "Hoje eu me acabo no bar.",
-      "Ninguém segura a capivara na sinuca.",
-      "Vamos cantar o que no karaokê?",
+      "Tá tudo bem. Não tá. Mas tá.",
+      "Se eu chorar agora alguém me julga?",
+      "Capivara no auge da crise existencial.",
+      "É agora ou nunca — tô votando no nunca.",
     ],
     pressure: "urgente",
     pressureLabel: "Pressão pra sexta: urgente",
@@ -133,13 +174,23 @@ export const DAY_MOODS: Record<number, DayMood> = {
     day: 5,
     weekday: "Sexta",
     mood: "Aliviada, correndo",
-    quotes: [
+    dayQuotes: [
       "SEXTA-FEIRA PAPAI!",
-      "Já pode almoçar?",
-      "E o pix? Nada ainda.",
-      "Tô tremendo de ansiedade ou de cafeína? Sim.",
       "O All Hands tá chegando aaaaaaa.",
+      "E o pix? Nada ainda.",
+      "SEXTOU.",
+      "Sexta-feira eu não sou de ninguém.",
+      "Pix da Visio cadê meu deus.",
+      "É hoje que a capivara brilha. Ou colapsa, vai saber.",
+    ],
+    moodQuotes: [
+      "Já pode almoçar?",
+      "Tô tremendo de ansiedade ou de cafeína? Sim.",
       "Aerofólio para meu Palio.",
+      "TÔ NUM SURTO.",
+      "É muita coisa, eu não sou de ferro.",
+      "AAAAAAAAA (tradução: socorro).",
+      "Capivara surtada em horário comercial.",
     ],
     pressure: "critica",
     pressureLabel: "Pressão pra sexta: crítica",
@@ -158,12 +209,20 @@ export const DAY_5_POST_SUBMISSION: DayMood = {
   day: 5,
   weekday: "Sexta",
   mood: "Detetive satisfeita",
-  quotes: [
+  dayQuotes: [
     "É a capivara não tem jeito.",
     "Caso encerrado (por ora).",
+    "Foi osso mas a capivara venceu.",
+    "Anota aí: missão cumprida.",
+  ],
+  moodQuotes: [
     "Elementar, meu caro.",
     "TUM TUM.",
     "Mistério resolvido. Ou quase.",
+    "Olha eu detetive, gente.",
+    "Hora do bar, mereci.",
+    "A capivara saiu vitoriosa.",
+    "Caso encerrado, agora me deixa em paz.",
   ],
   pressure: "leve",
   pressureLabel: "Caso entregue",
@@ -259,7 +318,12 @@ export async function getCurrentMood(
   return {
     day: calendar.day,
     weekday: calendar.weekday,
-    quotes: usePostSubmission ? DAY_5_POST_SUBMISSION.quotes : calendar.quotes,
+    dayQuotes: usePostSubmission
+      ? DAY_5_POST_SUBMISSION.dayQuotes
+      : calendar.dayQuotes,
+    moodQuotes: usePostSubmission
+      ? DAY_5_POST_SUBMISSION.moodQuotes
+      : intensity.moodQuotes,
     mood: intensity.mood,
     pressure: intensity.pressure,
     pressureLabel: intensity.pressureLabel,

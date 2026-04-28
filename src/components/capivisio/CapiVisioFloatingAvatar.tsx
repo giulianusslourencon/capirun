@@ -8,7 +8,7 @@ import {
   type CapiVisioExpressDetail,
   type CapiVisioExpression,
 } from '@/lib/capiVisioExpressions'
-import { pickQuote, pickReactionQuote } from '@/lib/capiVisioQuotes'
+import { pickAmbientQuote, pickReactionQuote } from '@/lib/capiVisioQuotes'
 import { CapiVisioAvatar } from './CapiVisioAvatar'
 
 type Props = {
@@ -34,7 +34,7 @@ export function CapiVisioFloatingAvatar({ mood }: Props) {
     setDisplayQuote(null)
   }
 
-  const quote = displayQuote ?? mood?.quotes[0] ?? ''
+  const quote = displayQuote ?? mood?.dayQuotes[0] ?? ''
 
   const overrideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const bubbleCloseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -86,7 +86,7 @@ export function CapiVisioFloatingAvatar({ mood }: Props) {
         setBubbleOpen(false)
         const currentMood = moodRef.current
         if (currentMood) {
-          setDisplayQuote(pickQuote(currentMood.quotes, quoteRef.current))
+          setDisplayQuote(pickAmbientQuote(currentMood, quoteRef.current))
         }
       }, dur + OVERRIDE_BUBBLE_PAD_MS)
     }
@@ -125,7 +125,7 @@ export function CapiVisioFloatingAvatar({ mood }: Props) {
         schedule()
         return
       }
-      setDisplayQuote(pickQuote(currentMood.quotes, quoteRef.current))
+      setDisplayQuote(pickAmbientQuote(currentMood, quoteRef.current))
       setBubbleOpen(true)
       if (bubbleCloseTimeoutRef.current) clearTimeout(bubbleCloseTimeoutRef.current)
       bubbleCloseTimeoutRef.current = setTimeout(() => {

@@ -1,4 +1,5 @@
 import type { CapiVisioExpression } from "@/lib/capiVisioExpressions";
+import type { DayMood } from "@/lib/capiVisioMood";
 
 export const REACTION_QUOTES: Partial<Record<CapiVisioExpression, string[]>> = {
   celebrating: [
@@ -41,4 +42,8 @@ export function pickReactionQuote(
   const list = REACTION_QUOTES[expression];
   if (!list || list.length === 0) return null;
   return pickQuote(list, exclude);
+}
+
+export function pickAmbientQuote(mood: DayMood, exclude?: string): string {
+  return pickQuote([...mood.dayQuotes, ...mood.moodQuotes], exclude);
 }
