@@ -3,7 +3,8 @@ import { redirect } from 'next/navigation'
 import { Navbar } from '@/components/layout/Navbar'
 import { PageWrapper } from '@/components/layout/PageWrapper'
 import { AdminDayToggle } from './AdminDayToggle'
-import type { Day } from '@/types/tables'
+import { AdminPlayerTestToggle } from './AdminPlayerTestToggle'
+import type { Day, Player } from '@/types/tables'
 
 const ADMINS = (process.env.ADMIN_EMAILS ?? '').split(',').map((e) => e.trim()).filter(Boolean)
 
@@ -13,17 +14,34 @@ export default async function AdminPage() {
 
   if (!user || !ADMINS.includes(user.email!)) redirect('/home')
 
-  const { data: days } = await supabase.from('days').select('*').order('day_number')
+  const [{ data: days }, { data: players }] = await Promise.all([
+    supabase.from('days').select('*').order('day_number'),
+    supabase.from('players').select('*').order('created_at', { ascending: false }),
+  ])
 
   return (
     <>
       <Navbar />
       <PageWrapper title="Painel Admin">
-        <div className="flex flex-col gap-4">
+        <section className="flex flex-col gap-4">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">Dias</h2>
           {(days as Day[] ?? []).map((day) => (
             <AdminDayToggle key={day.day_number} day={day} />
           ))}
-        </div>
+        </section>
+
+        <section className="mt-8 flex flex-col gap-3">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
+            Players ({(players as Player[] ?? []).length})
+          </h2>
+          <p className="text-xs text-gray-500">
+            <span className="font-medium text-amber-700">teste</span> = oculto do ranking ·{' '}
+            <span className="font-medium text-emerald-700">desafio</span> = aparece no ranking
+          </p>
+          {(players as Player[] ?? []).map((player) => (
+            <AdminPlayerTestToggle key={player.id} player={player} />
+          ))}
+        </section>
       </PageWrapper>
     </>
   )
