@@ -21,7 +21,7 @@ export default async function AdminPage() {
 
   return (
     <>
-      <Navbar />
+      <Navbar canAccessRanking />
       <PageWrapper title="Painel Admin">
         <section className="flex flex-col gap-4">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">Dias</h2>

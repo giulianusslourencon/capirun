@@ -9,9 +9,10 @@ import { CapiVisioFloatingAvatar } from '@/components/capivisio/CapiVisioFloatin
 
 type Props = {
   mood?: DayMood | null
+  canAccessRanking?: boolean
 }
 
-export function Navbar({ mood = null }: Props = {}) {
+export function Navbar({ mood = null, canAccessRanking = true }: Props = {}) {
   const pathname = usePathname()
   const router = useRouter()
   const [open, setOpen] = useState(false)
@@ -25,7 +26,7 @@ export function Navbar({ mood = null }: Props = {}) {
 
   const links = [
     { href: '/home', label: 'Início' },
-    { href: '/ranking', label: 'Ranking' },
+    ...(canAccessRanking ? [{ href: '/ranking', label: 'Ranking' }] : []),
     { href: '/faq', label: 'FAQ' },
     { href: '/referencias', label: 'Referências' },
   ]

@@ -12,6 +12,7 @@ import { PrevNextNav, type NavTarget } from '@/components/navigation/PrevNextNav
 import { readEventContent } from '@/lib/content'
 import { computeAccessibleIds, computeDayStatuses } from '@/lib/utils'
 import { getCurrentMood } from '@/lib/capiVisioMood'
+import { canAccessRanking } from '@/lib/auth/canAccessRanking'
 import { getMyLastMurdleAccusation } from '@/lib/queries/murdle'
 import type { Puzzle } from '@/types/tables'
 
@@ -36,6 +37,7 @@ export default async function DayPage({ params, searchParams }: Props) {
     { data: allPuzzles },
     { data: progress },
     mood,
+    rankingAccess,
   ] = await Promise.all([
     supabase.from('days').select('*').eq('day_number', dayNumber).single(),
     supabase
@@ -53,6 +55,7 @@ export default async function DayPage({ params, searchParams }: Props) {
       .select('puzzle_id, completed')
       .eq('player_id', user!.id),
     getCurrentMood(supabase, user!.id),
+    canAccessRanking(supabase, user),
   ])
 
   if (!dayData || !dayData.is_unlocked) notFound()
@@ -171,7 +174,7 @@ export default async function DayPage({ params, searchParams }: Props) {
 
     return (
       <>
-        <Navbar mood={mood} />
+        <Navbar mood={mood} canAccessRanking={rankingAccess} />
         <PageWrapper title={puzzle.name ?? `Evento ${orderInDay}`}>
           {eventBreadcrumb}
           {eventTopNav}
@@ -229,7 +232,7 @@ export default async function DayPage({ params, searchParams }: Props) {
 
   return (
     <>
-      <Navbar mood={mood} />
+      <Navbar mood={mood} canAccessRanking={rankingAccess} />
       <PageWrapper title={`Dia ${dayNumber} — ${dayData.title}`}>
         <Breadcrumb
           items={[

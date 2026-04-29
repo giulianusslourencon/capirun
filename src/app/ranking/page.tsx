@@ -4,11 +4,7 @@ import { PageWrapper } from "@/components/layout/PageWrapper";
 import { RankingTable } from "@/components/ranking/RankingTable";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentMood } from "@/lib/capiVisioMood";
-
-const ADMINS = (process.env.ADMIN_EMAILS ?? "")
-  .split(",")
-  .map((e) => e.trim())
-  .filter(Boolean);
+import { canAccessRanking } from "@/lib/auth/canAccessRanking";
 
 export default async function RankingPage() {
   const supabase = await createClient();
@@ -16,18 +12,13 @@ export default async function RankingPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const { data: player } = await supabase
-    .from("players")
-    .select("is_test")
-    .eq("id", user!.id)
-    .single();
-
-  if (player?.is_test && !ADMINS.includes(user!.email!)) redirect("/home");
+  const allowed = await canAccessRanking(supabase, user);
+  if (!allowed) redirect("/home");
 
   const mood = await getCurrentMood(supabase, user?.id);
   return (
     <>
-      <Navbar mood={mood} />
+      <Navbar mood={mood} canAccessRanking />
       <PageWrapper title="Ranking ao vivo">
         <div className="mb-6 rounded-lg border border-gray-200 bg-gray-50 px-5 py-4 text-sm leading-relaxed text-gray-700">
           Esse ranking é só informativo — serve pra fomentar a competição
