@@ -79,7 +79,7 @@ export default async function ReferenciasPage() {
       <Navbar mood={mood} canAccessRanking={rankingAccess} />
       <PageWrapper title="Referências">
         <section className="flex flex-col gap-3">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-muted-foreground">
             Se você curtiu o CapiRun, vai amar conhecer quem inspirou cada peça
             dele.
           </p>
@@ -101,29 +101,29 @@ export default async function ReferenciasPage() {
                       alt={r.image.alt}
                       width={96}
                       height={96}
-                      className="h-24 w-24 flex-shrink-0 rounded-lg object-cover bg-gray-50"
+                      className="h-24 w-24 flex-shrink-0 rounded-lg object-cover bg-muted"
                     />
                   ) : (
                     <div
                       aria-hidden="true"
-                      className="h-24 w-24 flex-shrink-0 rounded-lg bg-gray-100"
+                      className="h-24 w-24 flex-shrink-0 rounded-lg bg-muted"
                     />
                   )}
                   <div className="flex min-w-0 flex-1 flex-col gap-1">
-                    <span className="text-base font-semibold text-gray-900">
+                    <span className="text-base font-semibold text-foreground">
                       {r.title}
                       {r.author && (
-                        <span className="text-sm font-normal text-gray-500">
+                        <span className="text-sm font-normal text-muted-foreground">
                           {" "}
                           — {r.author}
                         </span>
                       )}
                     </span>
-                    <span className="text-sm text-gray-600">
+                    <span className="text-sm text-muted-foreground">
                       {r.description}
                     </span>
                     {r.domain && (
-                      <span className="mt-auto text-xs text-gray-400">
+                      <span className="mt-auto text-xs text-muted-foreground">
                         {r.domain}
                       </span>
                     )}

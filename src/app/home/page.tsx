@@ -48,7 +48,7 @@ export default async function HomePage() {
       <Navbar mood={mood} canAccessRanking={rankingAccess} />
       <PageWrapper>
         <div className="mb-6 flex items-baseline justify-between">
-          <h1 className="text-2xl font-bold text-gray-900">Dias</h1>
+          <h1 className="text-2xl font-bold text-foreground">Dias</h1>
           <IntroTrigger />
         </div>
         <div className="flex flex-col gap-4">

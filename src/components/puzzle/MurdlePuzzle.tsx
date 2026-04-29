@@ -52,17 +52,17 @@ export function MurdlePuzzle({ puzzleId, initialAccusation }: Props) {
       <MurdleDossier />
 
       <div className="flex items-start justify-between gap-3">
-        <p className="text-sm text-gray-700">
+        <p className="text-sm text-foreground">
           Use o grid abaixo para anotar suas deduções. Clique em uma célula para
-          alternar entre <strong className="text-emerald-600">✓</strong>,{" "}
-          <strong className="text-red-600">✗</strong>,{" "}
-          <strong className="text-gray-500">?</strong> e vazio.
+          alternar entre <strong className="text-emerald-600 dark:text-emerald-400">✓</strong>,{" "}
+          <strong className="text-red-600 dark:text-red-400">✗</strong>,{" "}
+          <strong className="text-muted-foreground">?</strong> e vazio.
         </p>
         <button
           type="button"
           onClick={() => setHelpOpen(true)}
           aria-label="Como funciona o Murdle"
-          className="shrink-0 rounded-full p-1.5 text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700"
+          className="shrink-0 rounded-full p-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
         >
           <HelpCircle className="h-5 w-5" aria-hidden />
         </button>
@@ -80,7 +80,7 @@ export function MurdlePuzzle({ puzzleId, initialAccusation }: Props) {
         onClose={() => setHelpOpen(false)}
         title="Como funciona o Murdle"
       >
-        <div className="space-y-3 text-sm leading-relaxed text-gray-700">
+        <div className="space-y-3 text-sm leading-relaxed text-foreground">
           <p>
             Descubra quem roubou o Lorenzzo Lopez, qual a motivação e qual outra
             ação cometeu. Cada suspeito tem exatamente uma motivação e uma ação.
@@ -88,16 +88,16 @@ export function MurdlePuzzle({ puzzleId, initialAccusation }: Props) {
 
           <p>
             Cada célula da grade cruza dois itens. Clique para alternar entre{" "}
-            <strong className="text-emerald-600">✓</strong> verdadeiro,{" "}
-            <strong className="text-red-600">✗</strong> falso,{" "}
-            <strong className="text-gray-500">?</strong> em dúvida e vazio.
+            <strong className="text-emerald-600 dark:text-emerald-400">✓</strong> verdadeiro,{" "}
+            <strong className="text-red-600 dark:text-red-400">✗</strong> falso,{" "}
+            <strong className="text-muted-foreground">?</strong> em dúvida e vazio.
           </p>
 
           <p>
             Em cada bloco 3×3 só cabe um{" "}
-            <strong className="text-emerald-600">✓</strong> por linha e por
+            <strong className="text-emerald-600 dark:text-emerald-400">✓</strong> por linha e por
             coluna — quando marcar um, as outras células daquela linha e coluna
-            viram <strong className="text-red-600">✗</strong>.
+            viram <strong className="text-red-600 dark:text-red-400">✗</strong>.
           </p>
 
           <p>

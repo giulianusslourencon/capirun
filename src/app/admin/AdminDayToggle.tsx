@@ -26,9 +26,9 @@ export function AdminDayToggle({ day }: { day: Day }) {
   return (
     <Card className="flex items-center justify-between">
       <div>
-        <p className="font-medium text-gray-900">Dia {day.day_number} — {day.title}</p>
+        <p className="font-medium text-foreground">Dia {day.day_number} — {day.title}</p>
         {day.unlocked_at && (
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-muted-foreground">
             Liberado em {new Date(day.unlocked_at).toLocaleString('pt-BR')}
           </p>
         )}
@@ -36,11 +36,11 @@ export function AdminDayToggle({ day }: { day: Day }) {
       <button
         onClick={handleToggle}
         disabled={loading}
-        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${unlocked ? 'bg-primary' : 'bg-gray-300'}`}
+        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${unlocked ? 'bg-primary' : 'bg-muted'}`}
         aria-label={unlocked ? 'Bloquear dia' : 'Liberar dia'}
       >
         <span
-          className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform ${unlocked ? 'translate-x-6' : 'translate-x-1'}`}
+          className={`inline-block h-4 w-4 transform rounded-full bg-background shadow transition-transform ${unlocked ? 'translate-x-6' : 'translate-x-1'}`}
         />
       </button>
     </Card>

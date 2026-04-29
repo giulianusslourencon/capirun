@@ -18,8 +18,8 @@ type Props = {
 }
 
 const baseButtonClasses =
-  'inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm transition-colors'
-const enabledClasses = 'hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900'
+  'inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-2 text-sm font-medium text-foreground shadow-sm transition-colors'
+const enabledClasses = 'hover:border-border hover:bg-accent hover:text-foreground'
 const disabledClasses = 'cursor-not-allowed opacity-60 pointer-events-none'
 
 function ChevronLeft() {
@@ -65,7 +65,7 @@ function NavSide({ target, disabled, reason, direction }: SideProps) {
         <span className="flex flex-col items-start leading-tight">
           <span>{target.label}</span>
           {target.sublabel && (
-            <span className="text-xs font-normal text-gray-500">{target.sublabel}</span>
+            <span className="text-xs font-normal text-muted-foreground">{target.sublabel}</span>
           )}
         </span>
       </>
@@ -74,7 +74,7 @@ function NavSide({ target, disabled, reason, direction }: SideProps) {
         <span className="flex flex-col items-end leading-tight">
           <span>{target.label}</span>
           {target.sublabel && (
-            <span className="text-xs font-normal text-gray-500">{target.sublabel}</span>
+            <span className="text-xs font-normal text-muted-foreground">{target.sublabel}</span>
           )}
         </span>
         <ChevronRight />

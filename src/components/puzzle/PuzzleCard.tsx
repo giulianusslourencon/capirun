@@ -27,7 +27,7 @@ export function PuzzleCard({ puzzle, isCompleted, isAccessible, initialAccusatio
   return (
     <Card className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
-        <h3 className="font-medium text-gray-900">{puzzle.name}</h3>
+        <h3 className="font-medium text-foreground">{puzzle.name}</h3>
         {isCompleted && <Badge variant="success">Concluído</Badge>}
       </div>
 

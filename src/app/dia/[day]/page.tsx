@@ -181,14 +181,14 @@ export default async function DayPage({ params, searchParams }: Props) {
           {!isAccessible ? (
             <>
               <div className="flex flex-col items-center gap-3 py-12 text-center">
-                <div className="rounded-full bg-gray-100 p-4">
-                  <svg className="h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="rounded-full bg-muted p-4">
+                  <svg className="h-8 w-8 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                       d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                   </svg>
                 </div>
-                <p className="font-medium text-gray-700">Evento bloqueado</p>
-                <p className="text-sm text-gray-500">Complete os eventos anteriores para desbloquear este.</p>
+                <p className="font-medium text-foreground">Evento bloqueado</p>
+                <p className="text-sm text-muted-foreground">Complete os eventos anteriores para desbloquear este.</p>
                 <Link href={`/dia/${dayNumber}`} className="mt-2 text-sm text-primary hover:underline">
                   ← Voltar para o Dia {dayNumber}
                 </Link>
@@ -197,7 +197,7 @@ export default async function DayPage({ params, searchParams }: Props) {
             </>
           ) : event === null ? (
             <>
-              <p className="text-sm text-gray-500">Conteúdo indisponível.</p>
+              <p className="text-sm text-muted-foreground">Conteúdo indisponível.</p>
               {eventBottomNav}
             </>
           ) : (
@@ -246,10 +246,10 @@ export default async function DayPage({ params, searchParams }: Props) {
         </div>
 
         {puzzles.length === 0 ? (
-          <p className="text-sm text-gray-500">Nenhum evento disponível para este dia.</p>
+          <p className="text-sm text-muted-foreground">Nenhum evento disponível para este dia.</p>
         ) : (
           <Card className="overflow-hidden p-0">
-            <div className="divide-y divide-gray-100">
+            <div className="divide-y divide-border">
               {puzzles.map((puzzle) => (
                 <EventCalendarEntry
                   key={puzzle.id ?? ''}

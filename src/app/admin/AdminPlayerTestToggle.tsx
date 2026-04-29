@@ -23,11 +23,11 @@ export function AdminPlayerTestToggle({ player }: { player: Player }) {
   return (
     <Card className="flex items-center justify-between">
       <div className="min-w-0">
-        <p className="truncate font-medium text-gray-900">{player.name}</p>
-        <p className="truncate text-xs text-gray-400">{player.email}</p>
+        <p className="truncate font-medium text-foreground">{player.name}</p>
+        <p className="truncate text-xs text-muted-foreground">{player.email}</p>
       </div>
       <div className="flex shrink-0 items-center gap-3">
-        <span className={`text-xs font-medium ${isTest ? 'text-amber-700' : 'text-emerald-700'}`}>
+        <span className={`text-xs font-medium ${isTest ? 'text-amber-700 dark:text-amber-400' : 'text-emerald-700 dark:text-emerald-400'}`}>
           {isTest ? 'teste' : 'desafio'}
         </span>
         <button
@@ -37,7 +37,7 @@ export function AdminPlayerTestToggle({ player }: { player: Player }) {
           aria-label={isTest ? 'Marcar como participante real' : 'Marcar como teste'}
         >
           <span
-            className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform ${isTest ? 'translate-x-1' : 'translate-x-6'}`}
+            className={`inline-block h-4 w-4 transform rounded-full bg-background shadow transition-transform ${isTest ? 'translate-x-1' : 'translate-x-6'}`}
           />
         </button>
       </div>

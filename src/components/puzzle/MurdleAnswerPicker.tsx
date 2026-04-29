@@ -46,11 +46,11 @@ export function MurdleAnswerPicker({ puzzleId, initialAccusation }: Props) {
 
   return (
     <div className="mt-3 flex flex-col items-center gap-3 text-center">
-      <p className="text-sm text-gray-700">
+      <p className="text-sm text-foreground">
         <strong>Quem roubou o Lorenzzo Lopez?</strong>
       </p>
       {hasSubmitted && (
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-muted-foreground">
           Acusação atual: <strong>{initial}</strong>
         </p>
       )}
@@ -84,19 +84,19 @@ export function MurdleAnswerPicker({ puzzleId, initialAccusation }: Props) {
               : "Confirmar acusação"}
         </Button>
         {selected && status !== "loading" && !isUnchanged && (
-          <span className="text-xs text-gray-500">
+          <span className="text-xs text-muted-foreground">
             Acusando: <strong>{selected}</strong>
           </span>
         )}
         {isUnchanged && status !== "loading" && (
-          <span className="text-xs text-gray-400">Nenhuma alteração</span>
+          <span className="text-xs text-muted-foreground">Nenhuma alteração</span>
         )}
       </div>
-      <p className="text-xs text-gray-400">
+      <p className="text-xs text-muted-foreground">
         A resposta correta será revelada presencialmente no All Hands.
       </p>
       {status === "error" && (
-        <p className="text-sm text-red-600">
+        <p className="text-sm text-red-600 dark:text-red-400">
           Não foi possível registrar a acusação. Tente novamente.
         </p>
       )}

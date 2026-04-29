@@ -24,19 +24,19 @@ export default async function AdminPage() {
       <Navbar canAccessRanking />
       <PageWrapper title="Painel Admin">
         <section className="flex flex-col gap-4">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">Dias</h2>
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Dias</h2>
           {(days as Day[] ?? []).map((day) => (
             <AdminDayToggle key={day.day_number} day={day} />
           ))}
         </section>
 
         <section className="mt-8 flex flex-col gap-3">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
             Players ({(players as Player[] ?? []).length})
           </h2>
-          <p className="text-xs text-gray-500">
-            <span className="font-medium text-amber-700">teste</span> = oculto do ranking ·{' '}
-            <span className="font-medium text-emerald-700">desafio</span> = aparece no ranking
+          <p className="text-xs text-muted-foreground">
+            <span className="font-medium text-amber-700 dark:text-amber-400">teste</span> = oculto do ranking ·{' '}
+            <span className="font-medium text-emerald-700 dark:text-emerald-400">desafio</span> = aparece no ranking
           </p>
           {(players as Player[] ?? []).map((player) => (
             <AdminPlayerTestToggle key={player.id} player={player} />

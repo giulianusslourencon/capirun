@@ -19,15 +19,15 @@ export function Breadcrumb({ items }: Props) {
             {item.href && !isLast ? (
               <Link
                 href={item.href}
-                className="text-gray-500 hover:text-gray-900"
+                className="text-muted-foreground hover:text-foreground"
               >
                 {item.label}
               </Link>
             ) : (
-              <span className="font-medium text-gray-900">{item.label}</span>
+              <span className="font-medium text-foreground">{item.label}</span>
             )}
             {!isLast && (
-              <span aria-hidden="true" className="text-gray-400">
+              <span aria-hidden="true" className="text-muted-foreground">
                 ›
               </span>
             )}

@@ -14,13 +14,13 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-primary/10 to-white px-4">
-      <div className="w-full max-w-sm rounded-2xl border border-gray-200 bg-white p-8 shadow-lg text-center">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-primary/10 to-background px-4">
+      <div className="w-full max-w-sm rounded-2xl border border-border bg-card text-card-foreground p-8 shadow-lg text-center">
         <h1 className="text-3xl font-bold text-primary mb-1">CapiRun</h1>
-        <p className="text-gray-500 mb-8 text-sm">Faça login para participar</p>
+        <p className="text-muted-foreground mb-8 text-sm">Faça login para participar</p>
         <button
           onClick={handleLogin}
-          className="flex w-full items-center justify-center gap-3 rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 transition-colors"
+          className="flex w-full items-center justify-center gap-3 rounded-lg border border-border bg-card px-4 py-3 text-sm font-medium text-foreground shadow-sm hover:bg-accent transition-colors"
         >
           <svg className="h-5 w-5" viewBox="0 0 24 24">
             <path

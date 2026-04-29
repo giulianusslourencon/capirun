@@ -6,6 +6,7 @@ import { Menu, X } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import type { DayMood } from '@/lib/capiVisioMood'
 import { CapiVisioFloatingAvatar } from '@/components/capivisio/CapiVisioFloatingAvatar'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
 
 type Props = {
   mood?: DayMood | null
@@ -33,7 +34,7 @@ export function Navbar({ mood = null, canAccessRanking = true }: Props = {}) {
 
   return (
     <>
-      <nav className="sticky top-0 z-40 border-b border-gray-200 bg-white px-4 py-3">
+      <nav className="sticky top-0 z-40 border-b border-border bg-background px-4 py-3">
         <div className="mx-auto flex max-w-3xl items-center justify-between">
           <Link href="/home" className="text-lg font-bold text-primary">CapiRun</Link>
 
@@ -42,46 +43,50 @@ export function Navbar({ mood = null, canAccessRanking = true }: Props = {}) {
               <Link
                 key={href}
                 href={href}
-                className={`text-sm font-medium ${pathname === href ? 'text-primary' : 'text-gray-600 hover:text-gray-900'}`}
+                className={`text-sm font-medium ${pathname === href ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
               >
                 {label}
               </Link>
             ))}
             <button
               onClick={handleLogout}
-              className="text-sm text-gray-500 hover:text-gray-700"
+              className="text-sm text-muted-foreground hover:text-foreground"
             >
               Sair
             </button>
+            <ThemeToggle />
           </div>
 
-          <button
-            type="button"
-            aria-label={open ? 'Fechar menu' : 'Abrir menu'}
-            aria-expanded={open}
-            onClick={() => setOpen(prev => !prev)}
-            className="-mr-1 rounded-md p-1 text-gray-700 hover:bg-gray-100 sm:hidden"
-          >
-            {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+          <div className="flex items-center gap-1 sm:hidden">
+            <ThemeToggle />
+            <button
+              type="button"
+              aria-label={open ? 'Fechar menu' : 'Abrir menu'}
+              aria-expanded={open}
+              onClick={() => setOpen(prev => !prev)}
+              className="-mr-1 rounded-md p-1 text-foreground hover:bg-accent"
+            >
+              {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
         </div>
 
         {open && (
-          <div className="mx-auto mt-3 max-w-3xl border-t border-gray-200 pt-3 sm:hidden">
+          <div className="mx-auto mt-3 max-w-3xl border-t border-border pt-3 sm:hidden">
             <div className="flex flex-col gap-1">
               {links.map(({ href, label }) => (
                 <Link
                   key={href}
                   href={href}
                   onClick={() => setOpen(false)}
-                  className={`rounded-md px-2 py-2 text-sm font-medium ${pathname === href ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-100'}`}
+                  className={`rounded-md px-2 py-2 text-sm font-medium ${pathname === href ? 'bg-primary/10 text-primary' : 'text-foreground hover:bg-accent'}`}
                 >
                   {label}
                 </Link>
               ))}
               <button
                 onClick={handleLogout}
-                className="rounded-md px-2 py-2 text-left text-sm text-gray-500 hover:bg-gray-100"
+                className="rounded-md px-2 py-2 text-left text-sm text-muted-foreground hover:bg-accent"
               >
                 Sair
               </button>

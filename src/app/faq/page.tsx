@@ -172,10 +172,10 @@ const capirunItems: FaqItem[] = [
 function FaqSection({ title, items }: { title: string; items: FaqItem[] }) {
   return (
     <section className="flex flex-col gap-2">
-      <h2 className="text-xl font-semibold text-gray-800 mb-2">{title}</h2>
+      <h2 className="text-xl font-semibold text-foreground mb-2">{title}</h2>
       <Accordion
         type="multiple"
-        className="w-full rounded-xl border border-gray-200 bg-white shadow-sm divide-y divide-gray-200"
+        className="w-full rounded-xl border border-border bg-card text-card-foreground shadow-sm divide-y divide-border"
       >
         {items.map((item) => (
           <AccordionItem
@@ -183,23 +183,25 @@ function FaqSection({ title, items }: { title: string; items: FaqItem[] }) {
             value={item.question}
             className="px-5 not-last:border-b-0"
           >
-            <AccordionTrigger className="font-semibold text-gray-900 py-4 text-base">
+            <AccordionTrigger className="font-semibold text-foreground py-4 text-base">
               {item.question}
             </AccordionTrigger>
             <AccordionContent>
-              <p className="text-sm text-gray-600 leading-relaxed">
+              <p className="text-sm text-muted-foreground leading-relaxed">
                 {item.answer}
               </p>
               {item.image && (
                 <div className="flex justify-center mt-3">
-                  <img
-                    src={item.image.src}
-                    alt={item.image.alt}
-                    role="img"
-                    width={240}
-                    height={240}
-                    className="rounded-lg border border-gray-100"
-                  />
+                  <div className="rounded-lg border border-border bg-white p-2">
+                    <img
+                      src={item.image.src}
+                      alt={item.image.alt}
+                      role="img"
+                      width={240}
+                      height={240}
+                      className="block"
+                    />
+                  </div>
                 </div>
               )}
             </AccordionContent>
@@ -225,11 +227,11 @@ export default async function FaqPage() {
       <PageWrapper title="FAQ">
         <div className="flex flex-col gap-8">
           <FaqSection title="A História" items={loreItems} />
-          <hr className="border-gray-200" />
+          <hr className="border-border" />
           <FaqSection title="Sudoku 4×4" items={sudokuItems} />
-          <hr className="border-gray-200" />
+          <hr className="border-border" />
           <FaqSection title="Ferramentas do SudokuPad" items={sudokupadItems} />
-          <hr className="border-gray-200" />
+          <hr className="border-border" />
           <FaqSection title="Regras do CapiRun" items={capirunItems} />
         </div>
       </PageWrapper>

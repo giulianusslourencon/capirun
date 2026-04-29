@@ -31,13 +31,13 @@ type Props = {
 
 function CellContent({ value }: { value: MurdleCellValue }) {
   if (value === "V") {
-    return <span className="text-base font-semibold text-emerald-600">✓</span>;
+    return <span className="text-base font-semibold text-emerald-600 dark:text-emerald-400">✓</span>;
   }
   if (value === "F") {
-    return <span className="text-base font-semibold text-red-600">✗</span>;
+    return <span className="text-base font-semibold text-red-600 dark:text-red-400">✗</span>;
   }
   if (value === "?") {
-    return <span className="text-sm font-semibold text-gray-400">?</span>;
+    return <span className="text-sm font-semibold text-muted-foreground">?</span>;
   }
   return null;
 }
@@ -67,7 +67,7 @@ function ActiveCell({ rowItem, colItem, value, onCycle }: ActiveCellProps) {
       type="button"
       onClick={onCycle}
       aria-label={cellAriaLabel(rowItem, colItem, value)}
-      className="flex h-10 w-12 items-center justify-center rounded border border-gray-200 bg-white transition-colors hover:bg-gray-50 active:bg-gray-100"
+      className="flex h-10 w-12 items-center justify-center rounded border border-border bg-card transition-colors hover:bg-accent active:bg-muted"
     >
       <CellContent value={value} />
     </button>
@@ -75,13 +75,13 @@ function ActiveCell({ rowItem, colItem, value, onCycle }: ActiveCellProps) {
 }
 
 const COL_CATEGORY_HEADER =
-  "px-1 pb-1 text-center text-xs font-semibold uppercase tracking-wide text-gray-500";
+  "px-1 pb-1 text-center text-xs font-semibold uppercase tracking-wide text-muted-foreground";
 const ROW_CATEGORY_HEADER =
-  "px-1 text-xs font-semibold uppercase tracking-wide text-gray-500 [writing-mode:vertical-rl] rotate-180";
+  "px-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground [writing-mode:vertical-rl] rotate-180";
 const ITEM_HEADER_COL =
-  "w-12 px-1 pb-1 align-bottom text-xl leading-none font-medium text-gray-700";
+  "w-12 px-1 pb-1 align-bottom text-xl leading-none font-medium text-foreground";
 const ITEM_HEADER_ROW =
-  "w-12 pr-2 text-right text-xl leading-none font-medium text-gray-700";
+  "w-12 pr-2 text-right text-xl leading-none font-medium text-foreground";
 
 export function MurdleBoard({ getValue, onCycle }: Props) {
   const suspectEmoji = (s: Suspect) => SUSPECT_EMOJI[s];
