@@ -1,11 +1,12 @@
 'use client'
 import { useSyncExternalStore } from 'react'
 import { useTheme } from 'next-themes'
-import { Sun, Moon, Monitor } from 'lucide-react'
+import { Sun, Moon, Monitor, Sparkles } from 'lucide-react'
 
 const labels: Record<string, string> = {
   light: 'claro',
   dark: 'escuro',
+  'ultra-pink': 'rosa ultra',
   system: 'sistema',
 }
 
@@ -21,8 +22,16 @@ export function ThemeToggle({ className = '' }: { className?: string }) {
   }
 
   const current = theme ?? 'system'
-  const next = current === 'light' ? 'dark' : current === 'dark' ? 'system' : 'light'
-  const Icon = current === 'dark' ? Moon : current === 'system' ? Monitor : Sun
+  const next =
+    current === 'light' ? 'dark'
+    : current === 'dark' ? 'ultra-pink'
+    : current === 'ultra-pink' ? 'system'
+    : 'light'
+  const Icon =
+    current === 'dark' ? Moon
+    : current === 'ultra-pink' ? Sparkles
+    : current === 'system' ? Monitor
+    : Sun
 
   return (
     <button

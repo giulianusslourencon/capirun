@@ -8,6 +8,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       defaultTheme="system"
       enableSystem
       disableTransitionOnChange
+      themes={['light', 'dark', 'ultra-pink', 'system']}
     >
       {children}
     </NextThemesProvider>
