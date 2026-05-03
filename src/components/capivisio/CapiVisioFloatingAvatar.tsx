@@ -6,7 +6,6 @@ import type { DayMood } from '@/lib/capiVisioMood'
 import {
   CAPIVISIO_EXPRESS_EVENT,
   type CapiVisioExpressDetail,
-  type CapiVisioExpression,
 } from '@/lib/capiVisioExpressions'
 import { pickAmbientQuote, pickReactionQuote } from '@/lib/capiVisioQuotes'
 import { CapiVisioAvatar } from './CapiVisioAvatar'
@@ -18,12 +17,11 @@ type Props = {
 const PEEK_MIN_MS = 25_000
 const PEEK_MAX_MS = 40_000
 const PEEK_DISPLAY_MS = 4_500
-const OVERRIDE_BUBBLE_PAD_MS = 500
+const REACTION_BUBBLE_PAD_MS = 500
 const HOVER_CLOSE_DELAY_MS = 250
 
 export function CapiVisioFloatingAvatar({ mood }: Props) {
   const reduce = useReducedMotion()
-  const [override, setOverride] = useState<CapiVisioExpression | null>(null)
   const [bubbleOpen, setBubbleOpen] = useState(false)
   const [stickyOpen, setStickyOpen] = useState(false)
   const [displayQuote, setDisplayQuote] = useState<string | null>(null)
@@ -36,18 +34,21 @@ export function CapiVisioFloatingAvatar({ mood }: Props) {
 
   const quote = displayQuote ?? mood?.dayQuotes[0] ?? ''
 
-  const overrideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const bubbleCloseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const rootRef = useRef<HTMLDivElement | null>(null)
 
   const stickyRef = useRef(stickyOpen)
+  const bubbleOpenRef = useRef(bubbleOpen)
   const moodRef = useRef(mood)
   const quoteRef = useRef(quote)
-  const overrideRef = useRef(override)
 
   useEffect(() => {
     stickyRef.current = stickyOpen
   }, [stickyOpen])
+
+  useEffect(() => {
+    bubbleOpenRef.current = bubbleOpen
+  }, [bubbleOpen])
 
   useEffect(() => {
     moodRef.current = mood
@@ -58,28 +59,17 @@ export function CapiVisioFloatingAvatar({ mood }: Props) {
   }, [quote])
 
   useEffect(() => {
-    overrideRef.current = override
-  }, [override])
-
-  useEffect(() => {
     const handler = (e: Event) => {
       const detail = (e as CustomEvent<CapiVisioExpressDetail>).detail
       if (!detail) return
-      setOverride(detail.expression)
 
       const reaction = pickReactionQuote(detail.expression)
-      if (reaction) setDisplayQuote(reaction)
+      if (!reaction) return
+      setDisplayQuote(reaction)
       setBubbleOpen(true)
 
-      if (overrideTimeoutRef.current) clearTimeout(overrideTimeoutRef.current)
       if (bubbleCloseTimeoutRef.current) clearTimeout(bubbleCloseTimeoutRef.current)
-
       const dur = detail.duration ?? 1500
-      overrideTimeoutRef.current = setTimeout(() => {
-        setOverride(null)
-        overrideTimeoutRef.current = null
-      }, dur)
-
       bubbleCloseTimeoutRef.current = setTimeout(() => {
         bubbleCloseTimeoutRef.current = null
         if (stickyRef.current) return
@@ -88,12 +78,11 @@ export function CapiVisioFloatingAvatar({ mood }: Props) {
         if (currentMood) {
           setDisplayQuote(pickAmbientQuote(currentMood, quoteRef.current))
         }
-      }, dur + OVERRIDE_BUBBLE_PAD_MS)
+      }, dur + REACTION_BUBBLE_PAD_MS)
     }
     window.addEventListener(CAPIVISIO_EXPRESS_EVENT, handler)
     return () => {
       window.removeEventListener(CAPIVISIO_EXPRESS_EVENT, handler)
-      if (overrideTimeoutRef.current) clearTimeout(overrideTimeoutRef.current)
     }
   }, [])
 
@@ -116,7 +105,7 @@ export function CapiVisioFloatingAvatar({ mood }: Props) {
         schedule()
         return
       }
-      if (stickyRef.current || overrideRef.current) {
+      if (stickyRef.current || bubbleOpenRef.current) {
         schedule()
         return
       }
@@ -180,9 +169,6 @@ export function CapiVisioFloatingAvatar({ mood }: Props) {
   }, [])
 
   if (!mood) return null
-
-  const expression = override ?? mood.defaultExpression
-  const intensity = override ? 1 : mood.intensity
 
   const handleClick = () => {
     if (stickyOpen) {
@@ -271,8 +257,7 @@ export function CapiVisioFloatingAvatar({ mood }: Props) {
           className={`rounded-full border-2 p-1.5 shadow-lg transition-transform hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${mood.accent.chip}`}
         >
           <CapiVisioAvatar
-            expression={expression}
-            intensity={intensity}
+            gifKey={mood.gifKey}
             size="lg"
             className="!h-16 !w-16 sm:!h-24 sm:!w-24"
           />

@@ -1,9 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/types/database";
-import {
-  PRESSURE_INTENSITY,
-  type CapiVisioExpression,
-} from "@/lib/capiVisioExpressions";
+import type { AvatarGifKey } from "@/lib/capiVisioExpressions";
 
 export type FridayPressure =
   | "leve"
@@ -28,8 +25,7 @@ export type DayMood = {
   pressure: FridayPressure;
   pressureLabel: string;
   accent: MoodAccent;
-  defaultExpression: CapiVisioExpression;
-  intensity: number;
+  gifKey: AvatarGifKey;
 };
 
 export const DAY_MOODS: Record<number, DayMood> = {
@@ -62,8 +58,7 @@ export const DAY_MOODS: Record<number, DayMood> = {
       chip: "bg-sky-100 dark:bg-sky-950/50 text-sky-800 dark:text-sky-300 border-sky-200 dark:border-sky-800",
       badge: "bg-sky-200 dark:bg-sky-800 text-sky-900 dark:text-sky-100",
     },
-    defaultExpression: "curious",
-    intensity: PRESSURE_INTENSITY.leve,
+    gifKey: "monday",
   },
   2: {
     day: 2,
@@ -92,8 +87,7 @@ export const DAY_MOODS: Record<number, DayMood> = {
       chip: "bg-amber-100 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-800",
       badge: "bg-amber-200 dark:bg-amber-800 text-amber-900 dark:text-amber-100",
     },
-    defaultExpression: "focused",
-    intensity: PRESSURE_INTENSITY.moderada,
+    gifKey: "tuesday",
   },
   3: {
     day: 3,
@@ -127,8 +121,7 @@ export const DAY_MOODS: Record<number, DayMood> = {
       chip: "bg-orange-100 dark:bg-orange-950/50 text-orange-800 dark:text-orange-300 border-orange-300 dark:border-orange-800",
       badge: "bg-orange-300 dark:bg-orange-800 text-orange-950 dark:text-orange-100",
     },
-    defaultExpression: "stressed",
-    intensity: PRESSURE_INTENSITY.forte,
+    gifKey: "wednesday",
   },
   4: {
     day: 4,
@@ -162,8 +155,7 @@ export const DAY_MOODS: Record<number, DayMood> = {
       chip: "bg-rose-100 dark:bg-rose-950/50 text-rose-800 dark:text-rose-300 border-rose-300 dark:border-rose-800",
       badge: "bg-rose-300 dark:bg-rose-800 text-rose-950 dark:text-rose-100",
     },
-    defaultExpression: "determined",
-    intensity: PRESSURE_INTENSITY.urgente,
+    gifKey: "thursday",
   },
   5: {
     day: 5,
@@ -194,8 +186,7 @@ export const DAY_MOODS: Record<number, DayMood> = {
       chip: "bg-red-100 dark:bg-red-950/50 text-red-900 dark:text-red-300 border-red-400 dark:border-red-700",
       badge: "bg-red-500 dark:bg-red-700 text-white",
     },
-    defaultExpression: "stressed",
-    intensity: PRESSURE_INTENSITY.critica,
+    gifKey: "friday",
   },
 };
 
@@ -226,8 +217,7 @@ export const DAY_5_POST_SUBMISSION: DayMood = {
     chip: "bg-indigo-100 dark:bg-indigo-950/50 text-indigo-800 dark:text-indigo-300 border-indigo-300 dark:border-indigo-800",
     badge: "bg-indigo-300 dark:bg-indigo-800 text-indigo-950 dark:text-indigo-100",
   },
-  defaultExpression: "sleuth",
-  intensity: PRESSURE_INTENSITY.moderada,
+  gifKey: "friday_sleuth",
 };
 
 export function moodForDay(day: number | null | undefined): DayMood | null {
@@ -305,7 +295,7 @@ export async function getCurrentMood(
   }
 
   const usePostSubmission = effectiveDay === 5 && day5Submitted;
-  const intensity = usePostSubmission
+  const active = usePostSubmission
     ? DAY_5_POST_SUBMISSION
     : (DAY_MOODS[effectiveDay] ?? calendar);
 
@@ -317,12 +307,11 @@ export async function getCurrentMood(
       : calendar.dayQuotes,
     moodQuotes: usePostSubmission
       ? DAY_5_POST_SUBMISSION.moodQuotes
-      : intensity.moodQuotes,
-    mood: intensity.mood,
-    pressure: intensity.pressure,
-    pressureLabel: intensity.pressureLabel,
-    accent: intensity.accent,
-    defaultExpression: intensity.defaultExpression,
-    intensity: intensity.intensity,
+      : active.moodQuotes,
+    mood: active.mood,
+    pressure: active.pressure,
+    pressureLabel: active.pressureLabel,
+    accent: active.accent,
+    gifKey: active.gifKey,
   };
 }
