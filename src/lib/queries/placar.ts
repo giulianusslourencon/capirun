@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/client'
 
-export async function getRanking() {
+export async function getPlacar() {
   const supabase = createClient()
   const { data, error } = await supabase
     .from('ranking')

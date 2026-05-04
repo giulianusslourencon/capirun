@@ -3,7 +3,7 @@ import { PageWrapper } from "@/components/layout/PageWrapper";
 import { Card } from "@/components/ui/Card";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentMood } from "@/lib/capiVisioMood";
-import { canAccessRanking } from "@/lib/auth/canAccessRanking";
+import { canAccessPlacar } from "@/lib/auth/canAccessPlacar";
 
 type Reference = {
   title: string;
@@ -69,14 +69,14 @@ export default async function ReferenciasPage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const [mood, rankingAccess] = await Promise.all([
+  const [mood, placarAccess] = await Promise.all([
     getCurrentMood(supabase, user?.id),
-    canAccessRanking(supabase, user),
+    canAccessPlacar(supabase, user),
   ]);
 
   return (
     <>
-      <Navbar mood={mood} canAccessRanking={rankingAccess} />
+      <Navbar mood={mood} canAccessPlacar={placarAccess} />
       <PageWrapper title="Referências">
         <section className="flex flex-col gap-3">
           <p className="text-sm text-muted-foreground">

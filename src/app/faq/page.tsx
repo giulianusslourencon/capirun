@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/accordion";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentMood } from "@/lib/capiVisioMood";
-import { canAccessRanking } from "@/lib/auth/canAccessRanking";
+import { canAccessPlacar } from "@/lib/auth/canAccessPlacar";
 
 type FaqItem = {
   question: string;
@@ -217,13 +217,13 @@ export default async function FaqPage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const [mood, rankingAccess] = await Promise.all([
+  const [mood, placarAccess] = await Promise.all([
     getCurrentMood(supabase, user?.id),
-    canAccessRanking(supabase, user),
+    canAccessPlacar(supabase, user),
   ]);
   return (
     <>
-      <Navbar mood={mood} canAccessRanking={rankingAccess} />
+      <Navbar mood={mood} canAccessPlacar={placarAccess} />
       <PageWrapper title="FAQ">
         <div className="flex flex-col gap-8">
           <FaqSection title="A História" items={loreItems} />

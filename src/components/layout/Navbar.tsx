@@ -10,10 +10,10 @@ import { ThemeToggle } from '@/components/ui/ThemeToggle'
 
 type Props = {
   mood?: DayMood | null
-  canAccessRanking?: boolean
+  canAccessPlacar?: boolean
 }
 
-export function Navbar({ mood = null, canAccessRanking = true }: Props = {}) {
+export function Navbar({ mood = null, canAccessPlacar = true }: Props = {}) {
   const pathname = usePathname()
   const router = useRouter()
   const [open, setOpen] = useState(false)
@@ -27,7 +27,7 @@ export function Navbar({ mood = null, canAccessRanking = true }: Props = {}) {
 
   const links = [
     { href: '/home', label: 'Início' },
-    ...(canAccessRanking ? [{ href: '/ranking', label: 'Ranking' }] : []),
+    ...(canAccessPlacar ? [{ href: '/placar', label: 'Placar' }] : []),
     { href: '/faq', label: 'FAQ' },
     { href: '/referencias', label: 'Referências' },
   ]

@@ -1,5 +1,5 @@
 'use client'
-import { useRanking } from '@/lib/hooks/useRanking'
+import { usePlacar } from '@/lib/hooks/usePlacar'
 import { cn } from '@/lib/utils'
 
 function formatLastCompleted(iso: string | null) {
@@ -25,25 +25,27 @@ function formatLastCompleted(iso: string | null) {
 
 type Props = {
   currentPlayerId?: string
+  totalPuzzles: number
 }
 
-export function RankingTable({ currentPlayerId }: Props) {
-  const ranking = useRanking()
+export function PlacarTable({ currentPlayerId, totalPuzzles }: Props) {
+  const placar = usePlacar()
 
   return (
     <div className="overflow-x-auto rounded-xl border border-border">
       <table className="w-full text-sm">
         <thead className="bg-muted text-xs font-medium uppercase tracking-wide text-muted-foreground">
           <tr>
-            <th className="px-4 py-3 text-left">#</th>
             <th className="px-4 py-3 text-left">Nome</th>
-            <th className="px-4 py-3 text-center">Puzzles</th>
+            <th className="px-4 py-3 text-left">Progresso</th>
             <th className="px-4 py-3 text-right">Último puzzle</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-border">
-          {ranking.map((row, i) => {
+          {placar.map((row) => {
             const isMe = !!currentPlayerId && row.player_id === currentPlayerId
+            const done = row.puzzles_concluidos ?? 0
+            const pct = totalPuzzles > 0 ? Math.min(100, (done / totalPuzzles) * 100) : 0
             return (
               <tr
                 key={row.player_id}
@@ -52,15 +54,22 @@ export function RankingTable({ currentPlayerId }: Props) {
                   isMe && 'bg-primary/5 hover:bg-primary/10'
                 )}
               >
-                <td className={cn('px-4 py-3 font-semibold text-foreground', isMe && 'text-primary')}>
-                  {i + 1}
-                </td>
                 <td className={cn('px-4 py-3 text-foreground', isMe && 'font-semibold')}>
                   {row.name}
                   {isMe && <span className="ml-2 text-xs font-normal text-muted-foreground">(você)</span>}
                 </td>
-                <td className="px-4 py-3 text-center text-primary font-medium">
-                  {row.puzzles_concluidos}
+                <td className="px-4 py-3">
+                  <div className="flex items-center gap-3">
+                    <div className="h-2 w-32 flex-shrink-0 overflow-hidden rounded-full bg-muted">
+                      <div
+                        className="h-full rounded-full bg-primary transition-[width]"
+                        style={{ width: `${pct}%` }}
+                      />
+                    </div>
+                    <span className="whitespace-nowrap text-xs text-muted-foreground tabular-nums">
+                      {done} de {totalPuzzles}
+                    </span>
+                  </div>
                 </td>
                 <td className="px-4 py-3 text-right text-muted-foreground whitespace-nowrap">
                   {formatLastCompleted(row.ultimo_concluido_em)}
@@ -68,9 +77,9 @@ export function RankingTable({ currentPlayerId }: Props) {
               </tr>
             )
           })}
-          {ranking.length === 0 && (
+          {placar.length === 0 && (
             <tr>
-              <td colSpan={4} className="px-4 py-8 text-center text-muted-foreground">Nenhum dado ainda.</td>
+              <td colSpan={3} className="px-4 py-8 text-center text-muted-foreground">Ninguém concluiu puzzle ainda.</td>
             </tr>
           )}
         </tbody>

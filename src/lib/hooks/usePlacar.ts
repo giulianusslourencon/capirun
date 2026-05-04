@@ -1,28 +1,28 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { getRanking } from '@/lib/queries/ranking'
-import type { RankingRow } from '@/types/tables'
+import { getPlacar } from '@/lib/queries/placar'
+import type { PlacarRow } from '@/types/tables'
 
-export function useRanking() {
-  const [ranking, setRanking] = useState<RankingRow[]>([])
+export function usePlacar() {
+  const [placar, setPlacar] = useState<PlacarRow[]>([])
 
   useEffect(() => {
-    getRanking().then(setRanking)
+    getPlacar().then(setPlacar)
 
     const supabase = createClient()
 
     const channel = supabase
-      .channel('ranking-realtime')
+      .channel('placar-realtime')
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'player_puzzles' },
-        () => getRanking().then(setRanking)
+        () => getPlacar().then(setPlacar)
       )
       .subscribe()
 
     return () => { supabase.removeChannel(channel) }
   }, [])
 
-  return ranking
+  return placar
 }

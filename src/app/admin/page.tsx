@@ -21,7 +21,7 @@ export default async function AdminPage() {
 
   return (
     <>
-      <Navbar canAccessRanking />
+      <Navbar canAccessPlacar />
       <PageWrapper title="Painel Admin">
         <section className="flex flex-col gap-4">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Dias</h2>
@@ -35,8 +35,8 @@ export default async function AdminPage() {
             Players ({(players as Player[] ?? []).length})
           </h2>
           <p className="text-xs text-muted-foreground">
-            <span className="font-medium text-amber-700 dark:text-amber-400">teste</span> = oculto do ranking ·{' '}
-            <span className="font-medium text-emerald-700 dark:text-emerald-400">desafio</span> = aparece no ranking
+            <span className="font-medium text-amber-700 dark:text-amber-400">teste</span> = oculto do placar ·{' '}
+            <span className="font-medium text-emerald-700 dark:text-emerald-400">desafio</span> = aparece no placar
           </p>
           {(players as Player[] ?? []).map((player) => (
             <AdminPlayerTestToggle key={player.id} player={player} />

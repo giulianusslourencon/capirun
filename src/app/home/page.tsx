@@ -5,7 +5,7 @@ import { PageWrapper } from '@/components/layout/PageWrapper'
 import { IntroModal } from '@/components/intro/IntroModal'
 import { IntroTrigger } from '@/components/intro/IntroTrigger'
 import { getCurrentMood } from '@/lib/capiVisioMood'
-import { canAccessRanking } from '@/lib/auth/canAccessRanking'
+import { canAccessPlacar } from '@/lib/auth/canAccessPlacar'
 import { computeDayStatuses } from '@/lib/utils'
 
 type PuzzleProgressRow = {
@@ -18,12 +18,12 @@ export default async function HomePage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const [{ data: days }, { data: puzzles }, { data: progress }, mood, rankingAccess] = await Promise.all([
+  const [{ data: days }, { data: puzzles }, { data: progress }, mood, placarAccess] = await Promise.all([
     supabase.from('days').select('*').order('day_number'),
     supabase.from('puzzles_public').select('id, day_number'),
     supabase.from('player_puzzles').select('puzzle_id, completed, completed_at').eq('player_id', user!.id),
     getCurrentMood(supabase, user!.id),
-    canAccessRanking(supabase, user),
+    canAccessPlacar(supabase, user),
   ])
 
   const completedIds = new Set(
@@ -45,7 +45,7 @@ export default async function HomePage() {
   return (
     <>
       <IntroModal />
-      <Navbar mood={mood} canAccessRanking={rankingAccess} />
+      <Navbar mood={mood} canAccessPlacar={placarAccess} />
       <PageWrapper>
         <div className="mb-6 flex items-baseline justify-between">
           <h1 className="text-2xl font-bold text-foreground">Dias</h1>

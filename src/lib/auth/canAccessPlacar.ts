@@ -6,7 +6,7 @@ const ADMINS = (process.env.ADMIN_EMAILS ?? "")
   .map((e) => e.trim())
   .filter(Boolean);
 
-export async function canAccessRanking(
+export async function canAccessPlacar(
   supabase: SupabaseClient<Database>,
   user: User | null,
 ): Promise<boolean> {
