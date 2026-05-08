@@ -17,7 +17,7 @@ const GIF_BY_KEY: Record<AvatarGifKey, string> = {
   tuesday: "/capivisio/capi_tuesday.gif",
   wednesday: "/capivisio/capi_wednesday.gif",
   thursday: "/capivisio/capi_thursday.gif",
-  friday: "/capivisio/capi_thursday.gif",
+  friday: "/capivisio/capi_friday.gif",
   friday_sleuth: "/capivisio/capi_monday.gif",
 };
 
